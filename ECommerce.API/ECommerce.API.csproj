@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ECommerce.Entities\ECommerce.Entities.csproj" />
+    <ProjectReference Include="..\ECommerce.Repositories\ECommerce.Repositories.csproj" />
+    <ProjectReference Include="..\ECommerce.Services\ECommerce.Services.csproj" />
+  </ItemGroup>
+
+</Project>
