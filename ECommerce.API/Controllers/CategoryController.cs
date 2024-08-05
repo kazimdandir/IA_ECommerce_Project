@@ -42,30 +42,6 @@ namespace ECommerce.API.Controllers
                 return NotFound();
         }
 
-        #region oldCreateCategoryMethod
-        //[HttpPost, Route("[action]")]
-        //public IActionResult CreateCategory([FromBody] Category category)
-        //{
-        //    #region Example Request Body
-        //    //{
-        //    //    "name": "newCategory"
-        //    //}
-        //    #endregion
-
-        //    var createdCategory = categoryServices.CreateCategory(category);
-        //    try
-        //    {
-        //        CreatedAtAction("GetCategoryById", new { id = createdCategory.Id }, createdCategory);
-        //        return Ok();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //} 
-        #endregion
-
-        #region newCreateCategoryMethod
         [HttpPost, Route("[action]")]
         public IActionResult CreateCategory([FromBody] CategoryCreateDTO categoryCreateDTO)
         {
@@ -99,23 +75,7 @@ namespace ECommerce.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message} - {ex.InnerException?.Message}");
             }
         }
-        #endregion
 
-        #region oldUpdateCategoryMethod
-        //[HttpPut, Route("[action]")]
-        //public IActionResult UpdateCategory([FromBody] Category category)
-        //{
-        //    #region Example Request Body
-        //    //{
-        //    //    "id": 4,
-        //    //    "name": "updatedCategory"
-        //    //}
-        //    #endregion
-        //    return Ok(categoryServices.UpdateCategory(category));
-        //} 
-        #endregion
-
-        #region newUpdateCategoryMethod
         [HttpPut, Route("[action]")]
         public IActionResult UpdateCategory([FromBody] CategoryUpdateDTO categoryUpdateDTO)
         {
@@ -153,7 +113,6 @@ namespace ECommerce.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message} - {ex.InnerException?.Message}");
             }
         }
-        #endregion
 
         [HttpDelete]
         [Route("[action]/{categoryId}")]

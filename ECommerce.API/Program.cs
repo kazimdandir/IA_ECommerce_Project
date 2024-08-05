@@ -4,22 +4,35 @@ using ECommerce.Repositories.Concrete;
 using ECommerce.Repositories.Context;
 using ECommerce.Services.Abstract;
 using ECommerce.Services.Concrete;
-using System;
+using ECommerce.Services.Mapping;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<ICategoryRepository<Category>, CategoryRepository>();
-builder.Services.AddSingleton<ICategoryServices<Category>, CategoryManager>();
-builder.Services.AddSingleton<IProductRepository<Product>, ProductRepository>();
-builder.Services.AddSingleton<IProductServices<Product>, ProductManager>();
-builder.Services.AddSingleton<ECommerceDbContext>();
+// Configuring database connection
+builder.Services.AddDbContext<ECommerceDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ECommerceDb")));
+
+// Registering Repository and Service dependencies
+builder.Services.AddScoped<ICategoryRepository<Category>, CategoryRepository>();
+builder.Services.AddScoped<ICategoryServices<Category>, CategoryManager>();
+builder.Services.AddScoped<IProductRepository<Product>, ProductRepository>();
+builder.Services.AddScoped<IProductServices<Product>, ProductManager>();
+builder.Services.AddScoped<IShoppingCartRepository<ShoppingCart>, ShoppingCartRepository>();
+builder.Services.AddScoped<IShoppingCartService<ShoppingCart>, ShoppingCartManager>();
+builder.Services.AddScoped<IUserReposiory<ApplicationUser>, UserRepository>();
+builder.Services.AddScoped<IUserService<ApplicationUser>, UserManager>();
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-        options.JsonSerializerOptions.MaxDepth = 64; // Or whatever depth you require
-        options.JsonSerializerOptions.WriteIndented = true; // Optional, makes JSON output more readable
+        options.JsonSerializerOptions.MaxDepth = 64; // Required depth
+        options.JsonSerializerOptions.WriteIndented = true; // Optional, makes the JSON output more readable
     });
 
 // Add services to the container.
@@ -37,8 +50,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles(); // Statik dosyalarý etkinleþtir
+app.UseStaticFiles();
 app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

@@ -21,85 +21,71 @@ namespace ECommerce.Repositories.Context
 
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=KAZIM\\SQLExpress;Database=ECommerce_Project_Db;Trusted_Connection=True;").EnableSensitiveDataLogging();
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Server=KAZIM\\SQLExpress;Database=ECommerce_Project_Db;Trusted_Connection=True;").EnableSensitiveDataLogging();
+        //}
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Product>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id)
-                    .ValueGeneratedOnAdd();
-                entity.Property(e => e.Name)
-                    //.IsRequired()
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.Description)
-                    .HasMaxLength(500);
-
-                entity.Property(e => e.Price)
-                    .HasColumnType("decimal(18,2)");
-
-                entity.HasOne(e => e.Category)
-                    .WithMany(c => c.Products)
-                    .HasForeignKey(e => e.CategoryId)
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity<Category>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id)
-                    .ValueGeneratedOnAdd();
-                entity.Property(e => e.Name)
-                    //.IsRequired()
-                    .HasMaxLength(100);
-            });
-
-            modelBuilder.Entity<ApplicationUser>(entity =>
-            {
-                entity.Property(e => e.FullName)
-                    .HasMaxLength(200);
-            });
-
-            //Seed data for Categories
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Electronics" },
-                new Category { Id = 2, Name = "Books" },
-                new Category { Id = 3, Name = "Clothing" }
-                );
-
-            //Seed data for Products
-            modelBuilder.Entity<Product>().HasData(
-                new Product { Id = 1, Name = "Laptop", Description = "A high-performance laptop", Price = 999.99m, CategoryId = 1 },
-                new Product { Id = 2, Name = "Novel", Description = "A best-selling novel", Price = 19.99m, CategoryId = 2 },
-                new Product { Id = 3, Name = "T-shirt", Description = "A comfortable t-shirt", Price = 9.99m, CategoryId = 3 }
-                );
-
-            // Seed data for ApplicationUser
-            var hasher = new PasswordHasher<ApplicationUser>();
-            modelBuilder.Entity<ApplicationUser>().HasData(
-                new ApplicationUser
-                {
-                    Id = "1",
-                    UserName = "admin",
-                    NormalizedUserName = "ADMIN",
-                    Email = "admin@example.com",
-                    NormalizedEmail = "ADMIN@EXAMPLE.COM",
-                    EmailConfirmed = true,
-                    PasswordHash = hasher.HashPassword(null, "Admin123!"),
-                    SecurityStamp = string.Empty,
-                    FullName = "Admin User"
-                }
+                new Category { Id = 2, Name = "Clothing" },
+                new Category { Id = 3, Name = "Books" }
             );
+
+            modelBuilder.Entity<Product>().HasData(
+                new Product { Id = 1, Name = "Laptop", Price = 1000, CategoryId = 1 },
+                new Product { Id = 2, Name = "Smartphone", Price = 500, CategoryId = 1 },
+                new Product { Id = 3, Name = "T-Shirt", Price = 20, CategoryId = 2 },
+                new Product { Id = 4, Name = "Novel", Price = 15, CategoryId = 3 }
+            );
+
+            modelBuilder.Entity<ApplicationUser>().HasData(
+                new ApplicationUser { Id = "1", FullName = "John Doe", UserName = "johndoe", PasswordHash = "password" },
+                new ApplicationUser { Id = "2", FullName = "Jane Smith", UserName = "janesmith", PasswordHash = "password" }
+            );
+
+            modelBuilder.Entity<ShoppingCart>().HasData(
+                new ShoppingCart { Id = 1, UserId = "1" },
+                new ShoppingCart { Id = 2, UserId = "2" }
+            );
+
+            modelBuilder.Entity<ShoppingCartItem>().HasData(
+                new ShoppingCartItem { Id = 1, ShoppingCartId = 1, ProductId = 1, Quantity = 1 },
+                new ShoppingCartItem { Id = 2, ShoppingCartId = 1, ProductId = 3, Quantity = 2 },
+                new ShoppingCartItem { Id = 3, ShoppingCartId = 2, ProductId = 2, Quantity = 1 },
+                new ShoppingCartItem { Id = 4, ShoppingCartId = 2, ProductId = 4, Quantity = 3 }
+            );
+
+            // Relationships
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Category)
+                .WithMany(c => c.Products)
+                .HasForeignKey(p => p.CategoryId);
+
+            modelBuilder.Entity<ShoppingCartItem>()
+                .HasOne(sci => sci.Product)
+                .WithMany(p => p.ShoppingCartItems)
+                .HasForeignKey(sci => sci.ProductId);
+
+            modelBuilder.Entity<ShoppingCartItem>()
+                .HasOne(sci => sci.ShoppingCart)
+                .WithMany(sc => sc.ShoppingCartItems)
+                .HasForeignKey(sci => sci.ShoppingCartId);
+
+            modelBuilder.Entity<ShoppingCart>()
+                .HasOne(sc => sc.User)
+                .WithMany(au => au.ShoppingCarts)
+                .HasForeignKey(sc => sc.UserId);
         }
     }
 }

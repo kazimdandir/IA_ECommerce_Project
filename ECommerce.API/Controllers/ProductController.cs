@@ -49,118 +49,6 @@ namespace ECommerce.API.Controllers
                 return NotFound();
         }
 
-        #region oldCreateProductMethod
-        //[HttpPost, Route("[action]")]
-        //public IActionResult CreateProduct([FromBody] Product product)
-        //{
-
-        #region Example Create API Request Body
-        //{
-        //    "name": "newProduct",
-        //    "price": 19.99,
-        //    "CategoryId": 1,
-        //    "description": "This is a sample product description."
-        //}
-        #endregion
-
-        //    if (product == null)
-        //    {
-        //        return BadRequest("Product is null");
-        //    }
-
-        //    //if (product.CategoryId <= 0)
-        //    //{
-        //    //    return BadRequest("Invalid CategoryId");
-        //    //}
-
-        //    try
-        //    {
-        //        // Ensure category exists
-        //        // var category = categoryServices.GetCategoryById(product.CategoryId).Result;
-        //        //if (category == null)
-        //        //{
-        //        //    return BadRequest("Category not found");
-        //        //}
-
-        //        var createdProduct = productServices.CreateProduct(product);
-        //        return CreatedAtAction("GetProductById", new { id = createdProduct.Id }, createdProduct);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, $"Internal server error: {ex.Message} - {ex.InnerException?.Message}");
-        //    }
-        //} 
-        #endregion
-
-        #region old2CreateProductMethod
-        //[HttpPost, Route("[action]")]
-        //public IActionResult CreateProduct([FromForm] ProductCreateDTO productCreateDTO)
-        //{
-        //    #region Example Create API Request Body
-        //    //{
-        //    //    "name": "newProduct",
-        //    //    "price": 19.99,
-        //    //    "CategoryId": 1,
-        //    //    "description": "This is a sample product description."
-        //    //}
-        //    #endregion
-
-        //    if (productCreateDTO == null)
-        //    {
-        //        return BadRequest("Product is null");
-        //    }
-
-        //    try
-        //    {
-        //        // Kategori var mı kontrol et
-        //        var category = context.Categories.Find(productCreateDTO.CategoryId);
-        //        if (category == null)
-        //        {
-        //            return BadRequest("Category not found");
-        //        }
-
-        //        // Resim dosyasını kaydet
-        //        string imagePath = null;
-        //        if (productCreateDTO.Image != null && productCreateDTO.Image.Length > 0)
-        //        {
-        //            var fileName = Path.GetFileName(productCreateDTO.Image.FileName);
-
-        //            using (var stream = new FileStream(productCreateDTO.Image.FileName, FileMode.Create))
-        //            {
-        //                productCreateDTO.Image.CopyTo(stream);
-
-        //            }
-        //            var targetFilePath = Path.Combine(Directory.GetCurrentDirectory(), "images", productCreateDTO.Image.FileName);
-
-        //            System.IO.File.Copy(fileName, targetFilePath, overwrite: true);
-
-        //        }
-
-        //        // DTO'dan ürün varlığı oluştur
-        //        var product = new Product
-        //        {
-        //            Name = productCreateDTO.Name,
-        //            Description = productCreateDTO.Description,
-        //            Price = productCreateDTO.Price,
-        //            CategoryId = productCreateDTO.CategoryId,
-        //            Category = category,
-        //            ImagePath = imagePath
-        //        };
-
-        //        // Yeni ürünü ekle
-        //        context.Products.Add(product);
-        //        context.SaveChanges();
-
-        //        return CreatedAtAction("GetByProductById", new { productId = product.Id }, product);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, $"Internal server error: {ex.Message} - {ex.InnerException?.Message}");
-        //    }
-        //}
-        #endregion
-
-        #region newCreateProductMethod
         [HttpPost, Route("[action]")]
         public IActionResult CreateProduct([FromForm] ProductCreateDTO productCreateDTO)
         {
@@ -171,14 +59,14 @@ namespace ECommerce.API.Controllers
 
             try
             {
-                // Kategori var mı kontrol et
+                // Check if there is a category
                 var category = context.Categories.Find(productCreateDTO.CategoryId);
                 if (category == null)
                 {
                     return BadRequest("Category not found");
                 }
 
-                // Resim dosyasını kaydet
+                // Save image file
                 string imagePath = null;
                 if (productCreateDTO.Image != null && productCreateDTO.Image.Length > 0)
                 {
@@ -187,22 +75,22 @@ namespace ECommerce.API.Controllers
                     var newFileName = $"{fileName}_300x300{extension}";
                     var targetFilePath = Path.Combine(Directory.GetCurrentDirectory(), "images", newFileName);
 
-                    // ImageSharp ile resim işleme ve kaydetme
+                    // Image processing and saving with ImageSharp
                     using (var image = SixLabors.ImageSharp.Image.Load(productCreateDTO.Image.OpenReadStream()))
                     {
-                        image.Mutate(x => x.Resize(300, 300)); // Dosya boyutu 
+                        image.Mutate(x => x.Resize(300, 300)); // File size
 
-                        // Resmi 'images' dizinine kaydet
+                        // Save image to 'images' directory
                         using (var fileStream = new FileStream(targetFilePath, FileMode.Create))
                         {
-                            image.Save(fileStream, new PngEncoder()); // PNG encoder kullanarak kaydediyoruz
+                            image.Save(fileStream, new PngEncoder()); // We save using PNG encoder
                         }
                     }
 
                     imagePath = $"/images/{newFileName}";
                 }
 
-                // DTO'dan ürün varlığı oluştur
+                // Create product entity from DTO
                 var product = new Product
                 {
                     Name = productCreateDTO.Name,
@@ -213,7 +101,7 @@ namespace ECommerce.API.Controllers
                     ImagePath = imagePath
                 };
 
-                // Yeni ürünü ekle
+                // Add new product
                 context.Products.Add(product);
                 context.SaveChanges();
 
@@ -224,82 +112,7 @@ namespace ECommerce.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message} - {ex.InnerException?.Message}");
             }
         }
-        #endregion
 
-        #region oldUpdateProductMethod
-        //[HttpPut, Route("[action]")]
-        //public IActionResult UpdateProduct([FromBody] Product product)
-        //{
-        //    #region Example Update API Request Body
-        //    //{
-        //    //    "id": 4,
-        //    //    "name": "updatedProduct"
-        //    //}
-        //    #endregion
-        //    return Ok(productServices.UpdateProduct(product));
-        //} 
-        #endregion
-
-        #region old2UpdateProductMethod
-        //[HttpPut, Route("[action]")]
-        //public IActionResult UpdateProduct([FromBody] ProductUpdateDTO productUpdateDTO)
-        //{
-        //    #region Example Update API Request Body
-        //    //{
-        //    //    "id": 1,
-        //    //    "name": "UpdatedProduct",
-        //    //    "description": "This is an updated sample product description.",
-        //    //    "price": 29.99,
-        //    //    "CategoryId": 2
-        //    //}
-        //    #endregion
-
-        //    if (productUpdateDTO == null)
-        //    {
-        //        return BadRequest("Product is null");
-        //    }
-
-        //    try
-        //    {
-        //        var product = context.Products.Find(productUpdateDTO.Id);
-        //        if (product == null)
-        //        {
-        //            return NotFound("Product not found");
-        //        }
-
-        //        // Save image to server
-        //        if (productUpdateDTO.Image != null)
-        //        {
-        //            var fileName = Path.GetFileName(productUpdateDTO.Image.FileName);
-        //            var filePath = Path.Combine("wwwroot/images", fileName);
-
-        //            using (var stream = new FileStream(filePath, FileMode.Create))
-        //            {
-        //                productUpdateDTO.Image.CopyTo(stream);
-        //            }
-
-        //            product.ImagePath = $"/images/{fileName}";
-        //        }
-
-        //        // Update product properties
-        //        product.Name = productUpdateDTO.Name;
-        //        product.Description = productUpdateDTO.Description;
-        //        product.Price = productUpdateDTO.Price;
-        //        product.CategoryId = productUpdateDTO.CategoryId;
-
-        //        context.Products.Update(product);
-        //        context.SaveChanges();
-
-        //        return Ok(product);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, $"Internal server error: {ex.Message} - {ex.InnerException?.Message}");
-        //    }
-        //}
-        #endregion
-
-        #region newUpdateProductMethod
         [HttpPut, Route("[action]")]
         public IActionResult UpdateProduct([FromForm] ProductUpdateDTO productUpdateDTO)
         {
@@ -310,7 +123,7 @@ namespace ECommerce.API.Controllers
             //    "description": "This is an updated sample product description.",
             //    "price": 29.99,
             //    "CategoryId": 2,
-            //    "Image": <resim dosyası>
+            //    "Image": <image file>
             //}
             #endregion
 
@@ -327,15 +140,15 @@ namespace ECommerce.API.Controllers
                     return NotFound("Product not found");
                 }
 
-                // Kategori var mı kontrol et
+                // Check if there is a category
                 var category = context.Categories.Find(productUpdateDTO.CategoryId);
                 if (category == null)
                 {
                     return BadRequest("Category not found");
                 }
 
-                // Resim dosyasını güncelle ve kaydet
-                string imagePath = product.ImagePath; // Mevcut resim yolu
+                // Save image file
+                string imagePath = product.ImagePath; // Current image path
                 if (productUpdateDTO.Image != null && productUpdateDTO.Image.Length > 0)
                 {
                     var fileName = Path.GetFileNameWithoutExtension(productUpdateDTO.Image.FileName);
@@ -343,22 +156,22 @@ namespace ECommerce.API.Controllers
                     var newFileName = $"{fileName}_300x300{extension}";
                     var targetFilePath = Path.Combine(Directory.GetCurrentDirectory(), "images", newFileName);
 
-                    // ImageSharp ile resim işleme ve kaydetme
+                    // Image processing and saving with ImageSharp
                     using (var image = SixLabors.ImageSharp.Image.Load(productUpdateDTO.Image.OpenReadStream()))
                     {
-                        image.Mutate(x => x.Resize(300, 300)); // Resmi 300x300 boyutuna yeniden boyutlandır
+                        image.Mutate(x => x.Resize(300, 300)); // Resize image to 300x300
 
-                        // Resmi 'images' dizinine kaydet
+                        // Save image to 'images' directory
                         using (var fileStream = new FileStream(targetFilePath, FileMode.Create))
                         {
-                            image.Save(fileStream, new PngEncoder()); // PNG encoder kullanarak kaydediyoruz
+                            image.Save(fileStream, new PngEncoder()); // We save using PNG encoder
                         }
                     }
 
                     imagePath = $"/images/{newFileName}";
                 }
 
-                // Ürün özelliklerini güncelle
+                // Update product features
                 product.Name = productUpdateDTO.Name;
                 product.Description = productUpdateDTO.Description;
                 product.Price = productUpdateDTO.Price;
@@ -376,8 +189,6 @@ namespace ECommerce.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message} - {ex.InnerException?.Message}");
             }
         }
-
-        #endregion
 
         [HttpDelete]
         [Route("[action]/{productId}")]

@@ -28,8 +28,11 @@ namespace ECommerce.Repositories.Concrete
         public void DeleteProduct(int productId)
         {
             var product = context.Products.FirstOrDefault(c => c.Id == productId);
-            context.Products.Remove(product);
-            context.SaveChanges();
+            if (product != null)
+            {
+                context.Products.Remove(product);
+                context.SaveChanges();
+            }
         }
 
         public IEnumerable<Product> GetAllProducts()
