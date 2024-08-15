@@ -4,6 +4,7 @@ using ECommerce.Services.Abstract;
 using ECommerce.Services.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Graph.Models;
 
 namespace ECommerce.API.Controllers
 {
@@ -18,6 +19,16 @@ namespace ECommerce.API.Controllers
         {
             _shoppingCartService = shoppingCartService;
             _mapper = mapper;
+        }
+
+        [HttpGet, Route("[action]")]
+        public IActionResult GetAllShoppingCarts()
+        {
+            var carts = _shoppingCartService.GetAllShoppingCarts();
+            if (carts is not null)
+                return Ok(carts);
+            else
+                return BadRequest();
         }
 
         [HttpGet, Route("[action]/{userId}")]

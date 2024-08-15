@@ -1,0 +1,140 @@
+﻿@* @model RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Register</h2>
+
+<form asp-action="Register" method="post">
+    <div class="form-group">
+        <label asp-for="FullName"></label>
+        <input asp-for="FullName" class="form-control" placeholder="Enter your name and surname" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div><br />
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" placeholder="Enter your email address" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div><br />
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" type="password" placeholder="Create your password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div><br />
+    <div class="form-group">
+        <label asp-for="ConfirmPassword"></label>
+        <input asp-for="ConfirmPassword" class="form-control" type="password" placeholder="Confirm your password" />
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div><br />
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+
+
+
+<script>
+    $.ajax({
+        type: "POST",
+        url: "/Account/Login",
+        data: JSON.stringify({ Email: "user@example.com", Password: "password123" }),
+        contentType: "application/json",
+        success: function (response) {
+            if (response.success) {
+                // Successful login
+                window.location.href = '/';
+            } else {
+                // Show error messages
+                alert(response.message || response.errors.join('\n'));
+            }
+        }
+    });
+
+</script> *@
+
+@model RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Register</h2>
+
+<form id="registerForm" asp-action="Register" method="post">
+    <div class="form-group">
+        <label asp-for="FullName"></label>
+        <input asp-for="FullName" class="form-control" placeholder="Enter your name and surname" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div><br />
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" placeholder="Enter your email address" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div><br />
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" type="password" placeholder="Create your password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div><br />
+    <div class="form-group">
+        <label asp-for="ConfirmPassword"></label>
+        <input asp-for="ConfirmPassword" class="form-control" type="password" placeholder="Confirm your password" />
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div><br />
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            $("#registerForm").submit(function (e) {
+                e.preventDefault();
+
+                var form = $(this);
+                var formData = form.serialize();
+
+                debugger;
+
+                $.ajax({
+                    type: "POST",
+                    url: form.attr("action"),
+                    data: formData,
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Registration successful',
+                                text: response.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function () {
+                                window.location.href = '/';
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Registration failed',
+                                text: response.errors.join('\n')
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'An error occurred',
+                            text: 'Please try again later.'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+
+
+
+

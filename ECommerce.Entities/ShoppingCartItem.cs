@@ -16,3 +16,4 @@ namespace ECommerce.Entities
         public int Quantity { get; set; }
     }
 }
+   

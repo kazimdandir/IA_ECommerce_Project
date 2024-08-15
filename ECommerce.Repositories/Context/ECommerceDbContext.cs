@@ -1,5 +1,6 @@
 ﻿using ECommerce.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Repositories.Context
 {
-    public class ECommerceDbContext : DbContext
+    public class ECommerceDbContext : IdentityDbContext<ApplicationUser>
     {
         public ECommerceDbContext()
         {
@@ -21,10 +22,15 @@ namespace ECommerce.Repositories.Context
 
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer("Server=KAZIM\\SQLExpress;Database=ECommerce_Project_Db;Trusted_Connection=True;").EnableSensitiveDataLogging();
-        //}
+        // Open only when creating the first migration, comment after migration
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=KAZIM\\SQLExpress;Database=ECommerce_Project_Db;Trusted_Connection=True;")
+                              .EnableSensitiveDataLogging();
+            }
+        }
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -34,7 +40,35 @@ namespace ECommerce.Repositories.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder); // Adds identity tables
+
+            // We use PasswordHasher to hash passwords
+            var hasher = new PasswordHasher<ApplicationUser>();
+
+            modelBuilder.Entity<ApplicationUser>().HasData(
+                new ApplicationUser
+                {
+                    Id = "1", // Given as String because IdentityUser's Id is usually a string
+                    FullName = "John Doe",
+                    UserName = "johndoe",
+                    NormalizedUserName = "JOHNDOE",
+                    Email = "johndoe@example.com",
+                    NormalizedEmail = "JOHNDOE@EXAMPLE.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = hasher.HashPassword(null, "password") // We hash the password
+                },
+                new ApplicationUser
+                {
+                    Id = "2",
+                    FullName = "Jane Smith",
+                    UserName = "janesmith",
+                    NormalizedUserName = "JANESMITH",
+                    Email = "janesmith@example.com",
+                    NormalizedEmail = "JANESMITH@EXAMPLE.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = hasher.HashPassword(null, "password")
+                }
+            );
 
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Electronics" },
@@ -47,11 +81,6 @@ namespace ECommerce.Repositories.Context
                 new Product { Id = 2, Name = "Smartphone", Price = 500, CategoryId = 1 },
                 new Product { Id = 3, Name = "T-Shirt", Price = 20, CategoryId = 2 },
                 new Product { Id = 4, Name = "Novel", Price = 15, CategoryId = 3 }
-            );
-
-            modelBuilder.Entity<ApplicationUser>().HasData(
-                new ApplicationUser { Id = "1", FullName = "John Doe", UserName = "johndoe", PasswordHash = "password" },
-                new ApplicationUser { Id = "2", FullName = "Jane Smith", UserName = "janesmith", PasswordHash = "password" }
             );
 
             modelBuilder.Entity<ShoppingCart>().HasData(
