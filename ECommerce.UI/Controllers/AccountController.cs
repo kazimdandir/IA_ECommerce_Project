@@ -75,7 +75,7 @@ namespace ECommerce.UI.Controllers
         public async Task<JsonResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return Json(new { success = true, message = "Logged out successfully" });
+            return new JsonResult(new { success = true, message = "Logged out successfully" });
         }
     }
 }

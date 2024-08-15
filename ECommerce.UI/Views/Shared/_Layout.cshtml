@@ -31,9 +31,7 @@
                     <ul class="navbar-nav">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                            </li>
+                            <button id="logoutButton" class="btn btn-danger">Logout</button>
                         }
                         else
                         {
@@ -68,5 +66,11 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
+
+    
+
+    
+
+
 </body>
 </html>
