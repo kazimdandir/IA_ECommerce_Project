@@ -51,10 +51,18 @@ namespace ECommerce.UI.Controllers
 
         [HttpPost]
         public async Task<JsonResult> Register(RegisterViewModel model)
-        {
+        {            
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { FullName = model.FullName, UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    FullName = model.FullName,
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Role = UserRole.Customer // We automatically set UserRole to Customer
+                };
+
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
@@ -68,6 +76,7 @@ namespace ECommerce.UI.Controllers
 
             // Model state errors to JSON
             var modelErrors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+
             return Json(new { success = false, errors = modelErrors });
         }
 
