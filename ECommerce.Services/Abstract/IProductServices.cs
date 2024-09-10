@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECommerce.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace ECommerce.Services.Abstract
         void DeleteProduct(int productId);
         Task<T> GetProductById(int productId);
         IEnumerable<T> GetAllProducts();
+        IEnumerable<Product> GetProductsByCategoryId(int categoryId);
     }
 }

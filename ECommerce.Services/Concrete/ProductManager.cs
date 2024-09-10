@@ -67,5 +67,15 @@ namespace ECommerce.Services.Concrete
         {
             return _productRepository.UpdateProduct(product);
         }
+
+        public IEnumerable<Product> GetProductsByCategoryId(int categoryId)
+        {
+            return _dbContext.Products
+                .Include(p => p.Category) // Include related Category
+                .Include(p => p.ShoppingCartItems) // Include related   ShoppingCartItems
+                    .ThenInclude(sci => sci.Size) // Include related Size through           ShoppingCartItems
+                .Where(p => p.CategoryId == categoryId)
+                .ToList();
+        }
     }
 }

@@ -1,0 +1,118 @@
+﻿@model ECommerce.Entities.Product
+
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<div class="container my-5 product-details">
+    <div class="row">
+        <!-- Left Column: Product Image -->
+        <div class="col-md-6">
+            <div class="product-image-container">
+                <img src="@(!string.IsNullOrEmpty(Model.ImagePath) ? Url.Content(Model.ImagePath) : "~/img/default-product.jpg")" alt="Product Image" class="img-fluid product-image" />
+            </div>
+        </div>
+
+        <!-- Right Column: Product Information -->
+        <div class="col-md-6 product-info">
+            <h1 class="product-title">@Model.Name</h1>
+            <h2 class="text-success product-price">@Model.Price.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</h2>
+            <p><strong>Category:</strong> @(Model.Category != null ? Model.Category.Name : "No Category")</p>
+            <p><strong>Size:</strong> @string.Join(", ", Model.ShoppingCartItems?.Select(i => i.Size?.SizeName) ?? new List<string>())</p>
+            <p><strong>Description:</strong> @Model.Description</p>
+
+            <!-- Action Buttons: Add to Cart & Like -->
+            <div class="action-buttons">
+                <a href="@Url.Action("AddToCart", "Cart", new { productId = Model.Id })" class="btn btn-primary add-to-cart-btn">Add to Cart</a>
+                <button class="btn btn-outline-danger like-btn" onclick="addToFavorites(@Model.Id)">
+                    <i class="fa fa-heart"></i> Like
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Styles -->
+<style>
+    .product-details {
+        max-width: 1200px;
+    }
+
+    .product-image-container {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+    }
+
+    .product-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        transition: transform 0.2s;
+    }
+
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+
+    .product-info {
+        padding-left: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .product-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .product-price {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .action-buttons {
+        margin-top: 20px;
+        display: flex;
+        gap: 15px;
+    }
+
+    .add-to-cart-btn {
+        padding: 12px 30px;
+        background-color: #28a745;
+        border: none;
+        font-weight: bold;
+        transition: background-color 0.2s;
+    }
+
+        .add-to-cart-btn:hover {
+            background-color: #218838;
+        }
+
+    .like-btn {
+        padding: 12px 30px;
+        font-weight: bold;
+        border-radius: 50px;
+    }
+
+        .like-btn i {
+            margin-right: 8px;
+        }
+</style>
+
+<!-- SweetAlert Script -->
+<script>
+    function addToFavorites(productId) {
+        // Simulate adding to favorites (you can replace this with your actual logic)
+        Swal.fire({
+            title: 'Added to Favorites!',
+            text: 'Product has been added to your favorites.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    }
+</script>

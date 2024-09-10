@@ -1,6 +1,7 @@
 ﻿using ECommerce.Entities;
 using ECommerce.Repositories.Abstract;
 using ECommerce.Repositories.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,5 +52,16 @@ namespace ECommerce.Repositories.Concrete
             context.SaveChanges();
             return product;
         }
+
+        public IEnumerable<Product> GetProductsByCategoryId(int categoryId)
+        {
+            return context.Products
+                .Include(p => p.Category) // Include related Category
+                .Include(p => p.ShoppingCartItems) // Include related   ShoppingCartItems
+                    .ThenInclude(sci => sci.Size) // Include related Size through           ShoppingCartItems
+                .Where(p => p.CategoryId == categoryId)
+                .ToList();
+        }
+
     }
 }
