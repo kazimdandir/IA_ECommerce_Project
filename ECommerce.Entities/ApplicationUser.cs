@@ -12,5 +12,7 @@ namespace ECommerce.Entities
         public string FullName { get; set; }
         public UserRole Role { get; set; }
         public ICollection<ShoppingCart> ShoppingCarts { get; set; }
+        public ICollection<FavoriteProducts> FavoriteProducts { get; set; } // Favori ürünleri ekleyin
+
     }
 }

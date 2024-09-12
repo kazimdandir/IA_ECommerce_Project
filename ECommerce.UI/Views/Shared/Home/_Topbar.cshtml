@@ -14,23 +14,13 @@
         </div>
         <div class="col-lg-6 text-center text-lg-right">
             <div class="d-inline-flex align-items-center">
-                <a class="text-dark px-2" href="https://www.facebook.com/KazmDandr" target="_blank">
-                    <i class="fab fa-facebook-f"></i>
+                <a asp-controller="Category" asp-action="GetAllFavorites" class="btn border">
+                    <i class="fas fa-heart text-primary"></i>
+                    <span class="badge">0</span>
                 </a>
-                <a class="text-dark px-2" href="https://x.com/kazimdandir" target="_blank">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a class="text-dark px-2" href="https://www.linkedin.com/in/kazimikbaldandir/" target="_blank">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a class="text-dark px-2" href="https://www.instagram.com/kazimdandir/" target="_blank">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a class="text-dark pl-2" href="https://www.discord.com/users/kazim71" target="_blank">
-                    <i class="fab fa-discord"></i>
-                </a>
-                <a class="text-dark pl-2" href="https://github.com/kazimdandir" target="_blank">
-                    <i class="fab fa-github"></i>
+                <a href="" class="btn border">
+                    <i class="fas fa-shopping-cart text-primary"></i>
+                    <span class="badge">0</span>
                 </a>
             </div>
         </div>
@@ -38,32 +28,35 @@
 
     <div class="row align-items-center py-3 px-xl-5">
         <div class="col-lg-3 d-none d-lg-block">
-            <a href="" class="text-decoration-none">
+            <a asp-controller="Home" asp-action="Index" class="text-decoration-none">
                 <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>GentleStyle</h1>
             </a>
         </div>
-        <div class="col-lg-6 col-6 text-left">
+        <div class="col-lg-9 col-6 text-left">
             <form id="searchForm" method="get" action="@Url.Action("AllProducts", "Category")">
                 <div class="input-group mb-3">
-                    <input type="text" name="searchQuery" class="form-control" placeholder="Search for products" value="@ViewBag.SearchQuery" />
+                    <input type="text" name="searchQuery" class="form-control" placeholder="Search for products" value="@ViewBag.SearchQuery" style="filter: drop-shadow(2px 4px 6px black);" />
                     <div class="input-group-append">
                         <span class="input-group-text bg-transparent text-primary">
-                            <i class="fa fa-search"></i>
+                            <button asp-controller="Category" asp-action="AllProducts" class="btn fa fa-search btn-outline-light"></button>
                         </span>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="col-lg-3 col-6 text-right">
-            <a href="" class="btn border">
-                <i class="fas fa-heart text-primary"></i>
-                <span class="badge">0</span>
-            </a>
-            <a href="" class="btn border">
-                <i class="fas fa-shopping-cart text-primary"></i>
-                <span class="badge">0</span>
-            </a>
-        </div>
+
     </div>
 </div>
 <!-- Topbar End -->
+
+<style>
+    .btn-outline-light {
+        background-color: #D19C97;
+        color: white;
+    }
+
+        .btn-outline-light:hover {
+            border-color: #D19C97;
+            color: #D19C97;
+        }
+</style>                

@@ -211,7 +211,8 @@ namespace ECommerce.Repositories.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DetailsCare = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -222,6 +223,44 @@ namespace ECommerce.Repositories.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FavoriteProducts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ProductId1 = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FavoriteProducts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FavoriteProducts_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_FavoriteProducts_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FavoriteProducts_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FavoriteProducts_Products_ProductId1",
+                        column: x => x.ProductId1,
+                        principalTable: "Products",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -263,8 +302,8 @@ namespace ECommerce.Repositories.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Role", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "33b57d7c-5f6a-4dc2-899d-ab5156c563e2", "johndoe@example.com", true, "John Doe", false, null, "JOHNDOE@EXAMPLE.COM", "JOHNDOE", "AQAAAAEAACcQAAAAEB8xhaGsIDCPiHtMNX3IVrXksyLnR/3nyCpr26X1AHwHi6haXtD08XOZGB3KdaTnxQ==", null, false, 0, "8fcf5de4-6abc-47cf-bb1e-2181e2dbafb5", false, "johndoe" },
-                    { "2", 0, "3344dba5-2dcd-49b8-98ec-eaa320352ae5", "janesmith@example.com", true, "Jane Smith", false, null, "JANESMITH@EXAMPLE.COM", "JANESMITH", "AQAAAAEAACcQAAAAEKUMQC2c1coB8yli3Wfxt1nmC56gFj7DWsAX7Myyr/bbAJ7xSDD4XoDOSIMQ5lJ5kw==", null, false, 0, "52aa1277-2a8a-4434-bd5d-0067123ebbab", false, "janesmith" }
+                    { "1", 0, "6ed93626-fec6-4df9-9a29-fa7ae2ec0964", "johndoe@example.com", true, "John Doe", false, null, "JOHNDOE@EXAMPLE.COM", "JOHNDOE", "AQAAAAEAACcQAAAAECQtX+ydwyiff3wHg0KPcMn3ktG4VaJ3KZVVq0G7poxuh0jNFCUGSpUbNbKwZ2L64A==", null, false, 0, "b30e10a0-871b-4b5f-b4d6-d5bfe5a4390a", false, "johndoe" },
+                    { "2", 0, "58749d8f-b52f-454b-9d98-408fb2e5b1cf", "janesmith@example.com", true, "Jane Smith", false, null, "JANESMITH@EXAMPLE.COM", "JANESMITH", "AQAAAAEAACcQAAAAEKepD5b8wO+mcBmwovcwjumx+xxlvZHWjPNfK1o+Gm4OXFJCLgWdl97h28a/gCAt4g==", null, false, 0, "c72dd7a7-7f72-4fa3-b0b2-b41fea2687ec", false, "janesmith" }
                 });
 
             migrationBuilder.InsertData(
@@ -314,40 +353,40 @@ namespace ECommerce.Repositories.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "CategoryId", "Description", "ImagePath", "Name", "Price" },
+                columns: new[] { "Id", "CategoryId", "Description", "DetailsCare", "ImagePath", "Name", "Price" },
                 values: new object[,]
                 {
-                    { 1, 5, null, "/img/Oversized Bird Graphic T-shirt.png", "Oversized Bird Graphic T-shirt", 14m },
-                    { 2, 5, null, "/img/Oversized Deadpool Cereal License Print T-shirt.png", "Oversized Deadpool Cereal License Print T-shirt", 20m },
-                    { 3, 5, null, "/img/Chocolate Oversized Extended Neck ABODE T-shirt.png", "Chocolate Oversized Extended Neck ABODE T-shirt", 14m },
-                    { 4, 7, null, "/img/Baggy Rigid Jean.png", "Baggy Rigid Jean", 25m },
-                    { 5, 7, null, "/img/Chocolate Relaxed Rigid Flare Patchwork Jeans.png", "Chocolate Relaxed Rigid Flare Patchwork Jeans", 42m },
-                    { 6, 7, null, "/img/Grey Slim Flared All Over Ripped Jeans With Let Down Hem.png", "Grey Slim Flared All Over Ripped Jeans With Let Down Hem", 35m },
-                    { 7, 12, null, "/img/Short Sleeve Linen Shirt.png", "Short Sleeve Linen Shirt", 50m },
-                    { 8, 12, null, "/img/Green Satin Oversized Revere Statue Border Shirt.png", "Green Satin Oversized Revere Statue Border Shirt", 28m },
-                    { 9, 1, null, "/img/Tonal Chunky Trainers In Blue.png", "Tonal Chunky Trainers In Blue", 35m },
-                    { 10, 1, null, "/img/Stone Track Sole Loafer.png", "Stone Track Sole Loafer", 35m },
-                    { 11, 1, null, "/img/Red Tapestry Buckle Detail Mule.png", "Red Tapestry Buckle Detail Mule", 32m },
-                    { 12, 2, null, "/img/Silver Cuban Chain Jean Chain.png", "Silver Cuban Chain Jean Chain", 10m },
-                    { 13, 2, null, "/img/Silver 3 Pack Mixed Bead Rings.png", "Silver 3 Pack Mixed Bead Rings", 8m },
-                    { 14, 3, null, "/img/BM Flames Cap In Black.png", "BM Flames Cap In Black", 8m },
-                    { 15, 3, null, "/img/Black Gothic Logo Jacquard Beanie.png", "Black Gothic Logo Jacquard Beanie", 12m },
-                    { 16, 4, null, "/img/Star Rimless Sunglasses In Red.png", "Star Rimless Sunglasses In Red", 8m },
-                    { 17, 4, null, "/img/Brown Aviator Matte Sunglasses.png", "Brown Aviator Matte Sunglasses", 6m },
-                    { 18, 6, null, "/img/Black Oversized Boxy Over The Seams Eagle Graphic Tracksuit.png", "Black Oversized Boxy Over The Seams Eagle Graphic Tracksuit", 45m },
-                    { 19, 6, null, "/img/Burgundy Oversized Boxy Cross Applique Zip Through Hoodie And Relaxed Jogger Tracksuit.png", "Burgundy Oversized Boxy Cross Applique Zip Through Hoodie And Relaxed Jogger Tracksuit", 60m },
-                    { 20, 8, null, "/img/Sage Oversized Boxy ABODE Hoodie.png", "Sage Oversized Boxy ABODE Hoodie", 25m },
-                    { 21, 8, null, "/img/Sand Monaco Back Print Sweatshirt.png", "Sand Monaco Back Print Sweatshirt", 30m },
-                    { 22, 9, null, "/img/Yellow Oversized PU Badge Moto Jacket.png", "Yellow Oversized PU Badge Moto Jacket", 70m },
-                    { 23, 9, null, "/img/Washed black Oversized Dirty Wash Carpenter Denim Biker Jacket.png", "Washed black Oversized Dirty Wash Carpenter Denim Biker Jacket", 40m },
-                    { 24, 10, null, "/img/Stone Fixed Waist Relaxed Applique Print Trouser.png", "Stone Fixed Waist Relaxed Applique Print Trouser", 35m },
-                    { 25, 10, null, "/img/Slate Elasticated Waist Relaxed Fit Buckle Cargo Trouser.png", "Slate Elasticated Waist Relaxed Fit Buckle Cargo Trouser", 35m },
-                    { 26, 11, null, "/img/Grey Slim Fit Elasticated Waist Cargo Shorts.png", "Grey Slim Fit Elasticated Waist Cargo Shorts", 22m },
-                    { 27, 11, null, "/img/Charcoal Oversized Drop Crotch Rib Hem Loopback Short.png", "Charcoal Oversized Drop Crotch Rib Hem Loopback Short", 20m },
-                    { 28, 13, null, "/img/Blue Relaxed Fit Split Hem Jacquard Joggers.png", "Blue Relaxed Fit Split Hem Jacquard Joggers", 30m },
-                    { 29, 13, null, "/img/Mint Plus Oversized Heavy Washed Applique Jogger.png", "Mint Plus Oversized Heavy Washed Applique Jogger", 30m },
-                    { 30, 14, null, "/img/Olive Fixed Waist Slim Stacked Flare Strap Cargo Trouser.png", "Olive Fixed Waist Slim Stacked Flare Strap Cargo Trouser", 40m },
-                    { 31, 14, null, "/img/Grey Plus Fixed Waist Straight Fit Cargo Trousers.png", "Grey Plus Fixed Waist Straight Fit Cargo Trousers", 30m }
+                    { 1, 5, null, "100% cotton. Model is 6\"1 and wears a size 3XL", "/img/Oversized Bird Graphic T-shirt.png", "Oversized Bird Graphic T-shirt", 14m },
+                    { 2, 5, null, "100% Baumwolle. Das Model ist 185cm groß und trägt Größe M", "/img/Oversized Deadpool Cereal License Print T-shirt.png", "Oversized Deadpool Cereal License Print T-shirt", 20m },
+                    { 3, 5, null, "100% Baumwolle", "/img/Chocolate Oversized Extended Neck ABODE T-shirt.png", "Chocolate Oversized Extended Neck ABODE T-shirt", 14m },
+                    { 4, 7, null, "100% COTTON. MODEL IS 6'1 AND WEARS SIZE 32.", "/img/Baggy Rigid Jean.png", "Baggy Rigid Jean", 25m },
+                    { 5, 7, null, "100% COTTON. MODEL IS 6'1 AND WEARS SIZE 32.", "/img/Chocolate Relaxed Rigid Flare Patchwork Jeans.png", "Chocolate Relaxed Rigid Flare Patchwork Jeans", 42m },
+                    { 6, 7, null, "100% Baumwolle. Das Model ist 185cm groß und trägt Größe 32.", "/img/Grey Slim Flared All Over Ripped Jeans With Let Down Hem.png", "Grey Slim Flared All Over Ripped Jeans With Let Down Hem", 35m },
+                    { 7, 12, null, "50% Viskose, 40% Baumwolle, 10% Leinen. Das Model ist 185cm groß und trägt Größe M", "/img/Short Sleeve Linen Shirt.png", "Short Sleeve Linen Shirt", 50m },
+                    { 8, 12, null, "100% Polyester. Model ist 185cm geoß und trägt Größe M.", "/img/Green Satin Oversized Revere Statue Border Shirt.png", "Green Satin Oversized Revere Statue Border Shirt", 28m },
+                    { 9, 1, null, "Upper: Polyurethane (PU) Lining: Textile Insole: Textile Outsole: Thermoplastic Rubber (TPR)", "/img/Tonal Chunky Trainers In Blue.png", "Tonal Chunky Trainers In Blue", 35m },
+                    { 10, 1, null, "UPPER/LINING : 100% PU SYNTHETIC, SOLE: 100% THERMOPLASTIC RUBBER", "/img/Stone Track Sole Loafer.png", "Stone Track Sole Loafer", 35m },
+                    { 11, 1, null, "UPPER : 100% TEXTILE LINING : 100%PU SYNTH , SOCKS: 100%PU SYNTH, MID SOLE : 100% PU SOLE : 100% EVA", "/img/Red Tapestry Buckle Detail Mule.png", "Red Tapestry Buckle Detail Mule", 32m },
+                    { 12, 2, null, "zinc alloy+glass", "/img/Silver Cuban Chain Jean Chain.png", "Silver Cuban Chain Jean Chain", 10m },
+                    { 13, 2, null, "90%zinc alloy+8%glass+2%epoxy", "/img/Silver 3 Pack Mixed Bead Rings.png", "Silver 3 Pack Mixed Bead Rings", 8m },
+                    { 14, 3, null, "80% Polyester, 20% Kunststoff", "/img/BM Flames Cap In Black.png", "BM Flames Cap In Black", 8m },
+                    { 15, 3, null, "100% acrylic", "/img/Black Gothic Logo Jacquard Beanie.png", "Black Gothic Logo Jacquard Beanie", 12m },
+                    { 16, 4, null, "90% Polycarbonate 10% Copper", "/img/Star Rimless Sunglasses In Red.png", "Star Rimless Sunglasses In Red", 8m },
+                    { 17, 4, null, "90% Metal, 10% Plastic.", "/img/Brown Aviator Matte Sunglasses.png", "Brown Aviator Matte Sunglasses", 6m },
+                    { 18, 6, null, "60% Cotton 40% Polyester. Model is 6'1 and wears size M.", "/img/Black Oversized Boxy Over The Seams Eagle Graphic Tracksuit.png", "Black Oversized Boxy Over The Seams Eagle Graphic Tracksuit", 45m },
+                    { 19, 6, null, "60% Baumwolle 40% Polyester", "/img/Burgundy Oversized Boxy Cross Applique Zip Through Hoodie And Relaxed Jogger Tracksuit.png", "Burgundy Oversized Boxy Cross Applique Zip Through Hoodie And Relaxed Jogger Tracksuit", 60m },
+                    { 20, 8, null, "50% Baumwolle, 50% Polyester", "/img/Sage Oversized Boxy ABODE Hoodie.png", "Sage Oversized Boxy ABODE Hoodie", 25m },
+                    { 21, 8, null, "50% Baumwolle und 50% Polyester, das Model ist 185cm groß und trägt Größe M.", "/img/Sand Monaco Back Print Sweatshirt.png", "Sand Monaco Back Print Sweatshirt", 30m },
+                    { 22, 9, null, "100% Polyurethane. Model is 6'1 and wears size M.", "/img/Yellow Oversized PU Badge Moto Jacket.png", "Yellow Oversized PU Badge Moto Jacket", 70m },
+                    { 23, 9, null, "100% Baumwolle. Model ist 185cm groß und trägt Größe M", "/img/Washed black Oversized Dirty Wash Carpenter Denim Biker Jacket.png", "Washed black Oversized Dirty Wash Carpenter Denim Biker Jacket", 40m },
+                    { 24, 10, null, "100% Cotton. Model is 6'1 and wears size M/ 32.", "/img/Stone Fixed Waist Relaxed Applique Print Trouser.png", "Stone Fixed Waist Relaxed Applique Print Trouser", 35m },
+                    { 25, 10, null, "100% Cotton. Model is 6'1 and wears size M.", "/img/Slate Elasticated Waist Relaxed Fit Buckle Cargo Trouser.png", "Slate Elasticated Waist Relaxed Fit Buckle Cargo Trouser", 35m },
+                    { 26, 11, null, "98% Baumwolle, 2% Elasthan. Model ist 185cm groß und trägt Größe M.", "/img/Grey Slim Fit Elasticated Waist Cargo Shorts.png", "Grey Slim Fit Elasticated Waist Cargo Shorts", 22m },
+                    { 27, 11, null, "52% Polyester, 48% Baumwolle. Model ist 185cm groß und trägt Größe M", "/img/Charcoal Oversized Drop Crotch Rib Hem Loopback Short.png", "Charcoal Oversized Drop Crotch Rib Hem Loopback Short", 20m },
+                    { 28, 13, null, "60% Baumwolle, 40% Polyester. Model ist 185cm groß und trägt EU Größe M.", "/img/Blue Relaxed Fit Split Hem Jacquard Joggers.png", "Blue Relaxed Fit Split Hem Jacquard Joggers", 30m },
+                    { 29, 13, null, "80% cotton 20% polyester. Model is 6\\'1 and wears a size 3XL", "/img/Mint Plus Oversized Heavy Washed Applique Jogger.png", "Mint Plus Oversized Heavy Washed Applique Jogger", 30m },
+                    { 30, 14, null, "98% Baumwolle, 2% Elastan. Das Model ist 185cm groß und trägt Größe 32", "/img/Olive Fixed Waist Slim Stacked Flare Strap Cargo Trouser.png", "Olive Fixed Waist Slim Stacked Flare Strap Cargo Trouser", 40m },
+                    { 31, 14, null, "100% cotton. This model is 6\"1 and wears a size 3XL.", "/img/Grey Plus Fixed Waist Straight Fit Cargo Trousers.png", "Grey Plus Fixed Waist Straight Fit Cargo Trousers", 30m }
                 });
 
             migrationBuilder.InsertData(
@@ -437,6 +476,26 @@ namespace ECommerce.Repositories.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FavoriteProducts_ApplicationUserId",
+                table: "FavoriteProducts",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FavoriteProducts_ProductId",
+                table: "FavoriteProducts",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FavoriteProducts_ProductId1",
+                table: "FavoriteProducts",
+                column: "ProductId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FavoriteProducts_UserId",
+                table: "FavoriteProducts",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
                 table: "Products",
                 column: "CategoryId");
@@ -478,6 +537,9 @@ namespace ECommerce.Repositories.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "FavoriteProducts");
 
             migrationBuilder.DropTable(
                 name: "ShoppingCartItems");

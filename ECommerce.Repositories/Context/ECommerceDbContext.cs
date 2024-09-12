@@ -38,6 +38,7 @@ namespace ECommerce.Repositories.Context
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Size> Sizes { get; set; }
+        public DbSet<FavoriteProducts> FavoriteProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -109,37 +110,37 @@ namespace ECommerce.Repositories.Context
             );
 
             modelBuilder.Entity<Product>().HasData(
-                new Product { Id = 1, Name = "Oversized Bird Graphic T-shirt", Price = 14, CategoryId = 5, ImagePath = "/img/Oversized Bird Graphic T-shirt.png" },
-                new Product { Id = 2, Name = "Oversized Deadpool Cereal License Print T-shirt", Price = 20, CategoryId = 5, ImagePath = "/img/Oversized Deadpool Cereal License Print T-shirt.png" },
-                new Product { Id = 3, Name = "Chocolate Oversized Extended Neck ABODE T-shirt", Price = 14, CategoryId = 5, ImagePath = "/img/Chocolate Oversized Extended Neck ABODE T-shirt.png" },
-                new Product { Id = 4, Name = "Baggy Rigid Jean", Price = 25, CategoryId = 7, ImagePath = "/img/Baggy Rigid Jean.png" },
-                new Product { Id = 5, Name = "Chocolate Relaxed Rigid Flare Patchwork Jeans", Price = 42, CategoryId = 7, ImagePath = "/img/Chocolate Relaxed Rigid Flare Patchwork Jeans.png" },
-                new Product { Id = 6, Name = "Grey Slim Flared All Over Ripped Jeans With Let Down Hem", Price = 35, CategoryId = 7, ImagePath = "/img/Grey Slim Flared All Over Ripped Jeans With Let Down Hem.png" },
-                new Product { Id = 7, Name = "Short Sleeve Linen Shirt", Price = 50, CategoryId = 12, ImagePath = "/img/Short Sleeve Linen Shirt.png" },
-                new Product { Id = 8, Name = "Green Satin Oversized Revere Statue Border Shirt", Price = 28, CategoryId = 12, ImagePath = "/img/Green Satin Oversized Revere Statue Border Shirt.png" },
-                new Product { Id = 9, Name = "Tonal Chunky Trainers In Blue", Price = 35, CategoryId = 1, ImagePath = "/img/Tonal Chunky Trainers In Blue.png" },
-                new Product { Id = 10, Name = "Stone Track Sole Loafer", Price = 35, CategoryId = 1, ImagePath = "/img/Stone Track Sole Loafer.png" },
-                new Product { Id = 11, Name = "Red Tapestry Buckle Detail Mule", Price = 32, CategoryId = 1, ImagePath = "/img/Red Tapestry Buckle Detail Mule.png" },
-                new Product { Id = 12, Name = "Silver Cuban Chain Jean Chain", Price = 10, CategoryId = 2, ImagePath = "/img/Silver Cuban Chain Jean Chain.png" },
-                new Product { Id = 13, Name = "Silver 3 Pack Mixed Bead Rings", Price = 8, CategoryId = 2, ImagePath = "/img/Silver 3 Pack Mixed Bead Rings.png" },
-                new Product { Id = 14, Name = "BM Flames Cap In Black", Price = 8, CategoryId = 3, ImagePath = "/img/BM Flames Cap In Black.png" },
-                new Product { Id = 15, Name = "Black Gothic Logo Jacquard Beanie", Price = 12, CategoryId = 3, ImagePath = "/img/Black Gothic Logo Jacquard Beanie.png" },
-                new Product { Id = 16, Name = "Star Rimless Sunglasses In Red", Price = 8, CategoryId = 4, ImagePath = "/img/Star Rimless Sunglasses In Red.png" },
-                new Product { Id = 17, Name = "Brown Aviator Matte Sunglasses", Price = 6, CategoryId = 4, ImagePath = "/img/Brown Aviator Matte Sunglasses.png" },
-                new Product { Id = 18, Name = "Black Oversized Boxy Over The Seams Eagle Graphic Tracksuit", Price = 45, CategoryId = 6, ImagePath = "/img/Black Oversized Boxy Over The Seams Eagle Graphic Tracksuit.png" },
-                new Product { Id = 19, Name = "Burgundy Oversized Boxy Cross Applique Zip Through Hoodie And Relaxed Jogger Tracksuit", Price = 60, CategoryId = 6, ImagePath = "/img/Burgundy Oversized Boxy Cross Applique Zip Through Hoodie And Relaxed Jogger Tracksuit.png" },
-                new Product { Id = 20, Name = "Sage Oversized Boxy ABODE Hoodie", Price = 25, CategoryId = 8, ImagePath = "/img/Sage Oversized Boxy ABODE Hoodie.png" },
-                new Product { Id = 21, Name = "Sand Monaco Back Print Sweatshirt", Price = 30, CategoryId = 8, ImagePath = "/img/Sand Monaco Back Print Sweatshirt.png" },
-                new Product { Id = 22, Name = "Yellow Oversized PU Badge Moto Jacket", Price = 70, CategoryId = 9, ImagePath = "/img/Yellow Oversized PU Badge Moto Jacket.png" },
-                new Product { Id = 23, Name = "Washed black Oversized Dirty Wash Carpenter Denim Biker Jacket", Price = 40, CategoryId = 9, ImagePath = "/img/Washed black Oversized Dirty Wash Carpenter Denim Biker Jacket.png" },
-                new Product { Id = 24, Name = "Stone Fixed Waist Relaxed Applique Print Trouser", Price = 35, CategoryId = 10, ImagePath = "/img/Stone Fixed Waist Relaxed Applique Print Trouser.png" },
-                new Product { Id = 25, Name = "Slate Elasticated Waist Relaxed Fit Buckle Cargo Trouser", Price = 35, CategoryId = 10, ImagePath = "/img/Slate Elasticated Waist Relaxed Fit Buckle Cargo Trouser.png" },
-                new Product { Id = 26, Name = "Grey Slim Fit Elasticated Waist Cargo Shorts", Price = 22, CategoryId = 11, ImagePath = "/img/Grey Slim Fit Elasticated Waist Cargo Shorts.png" },
-                new Product { Id = 27, Name = "Charcoal Oversized Drop Crotch Rib Hem Loopback Short", Price = 20, CategoryId = 11, ImagePath = "/img/Charcoal Oversized Drop Crotch Rib Hem Loopback Short.png" },
-                new Product { Id = 28, Name = "Blue Relaxed Fit Split Hem Jacquard Joggers", Price = 30, CategoryId = 13, ImagePath = "/img/Blue Relaxed Fit Split Hem Jacquard Joggers.png" },
-                new Product { Id = 29, Name = "Mint Plus Oversized Heavy Washed Applique Jogger", Price = 30, CategoryId = 13, ImagePath = "/img/Mint Plus Oversized Heavy Washed Applique Jogger.png" },
-                new Product { Id = 30, Name = "Olive Fixed Waist Slim Stacked Flare Strap Cargo Trouser", Price = 40, CategoryId = 14, ImagePath = "/img/Olive Fixed Waist Slim Stacked Flare Strap Cargo Trouser.png" },
-                new Product { Id = 31, Name = "Grey Plus Fixed Waist Straight Fit Cargo Trousers", Price = 30, CategoryId = 14, ImagePath = "/img/Grey Plus Fixed Waist Straight Fit Cargo Trousers.png" }
+                new Product { Id = 1, Name = "Oversized Bird Graphic T-shirt", Price = 14, CategoryId = 5, ImagePath = "/img/Oversized Bird Graphic T-shirt.png", DetailsCare = "100% cotton. Model is 6\"1 and wears a size 3XL" },
+                new Product { Id = 2, Name = "Oversized Deadpool Cereal License Print T-shirt", Price = 20, CategoryId = 5, ImagePath = "/img/Oversized Deadpool Cereal License Print T-shirt.png", DetailsCare = "100% Baumwolle. Das Model ist 185cm groß und trägt Größe M" },
+                new Product { Id = 3, Name = "Chocolate Oversized Extended Neck ABODE T-shirt", Price = 14, CategoryId = 5, ImagePath = "/img/Chocolate Oversized Extended Neck ABODE T-shirt.png", DetailsCare = "100% Baumwolle" },
+                new Product { Id = 4, Name = "Baggy Rigid Jean", Price = 25, CategoryId = 7, ImagePath = "/img/Baggy Rigid Jean.png", DetailsCare = "100% COTTON. MODEL IS 6'1 AND WEARS SIZE 32." },
+                new Product { Id = 5, Name = "Chocolate Relaxed Rigid Flare Patchwork Jeans", Price = 42, CategoryId = 7, ImagePath = "/img/Chocolate Relaxed Rigid Flare Patchwork Jeans.png", DetailsCare = "100% COTTON. MODEL IS 6'1 AND WEARS SIZE 32." },
+                new Product { Id = 6, Name = "Grey Slim Flared All Over Ripped Jeans With Let Down Hem", Price = 35, CategoryId = 7, ImagePath = "/img/Grey Slim Flared All Over Ripped Jeans With Let Down Hem.png", DetailsCare = "100% Baumwolle. Das Model ist 185cm groß und trägt Größe 32." },
+                new Product { Id = 7, Name = "Short Sleeve Linen Shirt", Price = 50, CategoryId = 12, ImagePath = "/img/Short Sleeve Linen Shirt.png", DetailsCare = "50% Viskose, 40% Baumwolle, 10% Leinen. Das Model ist 185cm groß und trägt Größe M" },
+                new Product { Id = 8, Name = "Green Satin Oversized Revere Statue Border Shirt", Price = 28, CategoryId = 12, ImagePath = "/img/Green Satin Oversized Revere Statue Border Shirt.png", DetailsCare = "100% Polyester. Model ist 185cm geoß und trägt Größe M." },
+                new Product { Id = 9, Name = "Tonal Chunky Trainers In Blue", Price = 35, CategoryId = 1, ImagePath = "/img/Tonal Chunky Trainers In Blue.png", DetailsCare = "Upper: Polyurethane (PU) Lining: Textile Insole: Textile Outsole: Thermoplastic Rubber (TPR)" },
+                new Product { Id = 10, Name = "Stone Track Sole Loafer", Price = 35, CategoryId = 1, ImagePath = "/img/Stone Track Sole Loafer.png", DetailsCare = "UPPER/LINING : 100% PU SYNTHETIC, SOLE: 100% THERMOPLASTIC RUBBER" },
+                new Product { Id = 11, Name = "Red Tapestry Buckle Detail Mule", Price = 32, CategoryId = 1, ImagePath = "/img/Red Tapestry Buckle Detail Mule.png", DetailsCare = "UPPER : 100% TEXTILE LINING : 100%PU SYNTH , SOCKS: 100%PU SYNTH, MID SOLE : 100% PU SOLE : 100% EVA" },
+                new Product { Id = 12, Name = "Silver Cuban Chain Jean Chain", Price = 10, CategoryId = 2, ImagePath = "/img/Silver Cuban Chain Jean Chain.png", DetailsCare = "zinc alloy+glass" },
+                new Product { Id = 13, Name = "Silver 3 Pack Mixed Bead Rings", Price = 8, CategoryId = 2, ImagePath = "/img/Silver 3 Pack Mixed Bead Rings.png", DetailsCare = "90%zinc alloy+8%glass+2%epoxy" },
+                new Product { Id = 14, Name = "BM Flames Cap In Black", Price = 8, CategoryId = 3, ImagePath = "/img/BM Flames Cap In Black.png", DetailsCare = "80% Polyester, 20% Kunststoff" },
+                new Product { Id = 15, Name = "Black Gothic Logo Jacquard Beanie", Price = 12, CategoryId = 3, ImagePath = "/img/Black Gothic Logo Jacquard Beanie.png", DetailsCare = "100% acrylic" },
+                new Product { Id = 16, Name = "Star Rimless Sunglasses In Red", Price = 8, CategoryId = 4, ImagePath = "/img/Star Rimless Sunglasses In Red.png", DetailsCare = "90% Polycarbonate 10% Copper" },
+                new Product { Id = 17, Name = "Brown Aviator Matte Sunglasses", Price = 6, CategoryId = 4, ImagePath = "/img/Brown Aviator Matte Sunglasses.png", DetailsCare = "90% Metal, 10% Plastic." },
+                new Product { Id = 18, Name = "Black Oversized Boxy Over The Seams Eagle Graphic Tracksuit", Price = 45, CategoryId = 6, ImagePath = "/img/Black Oversized Boxy Over The Seams Eagle Graphic Tracksuit.png", DetailsCare = "60% Cotton 40% Polyester. Model is 6'1 and wears size M." },
+                new Product { Id = 19, Name = "Burgundy Oversized Boxy Cross Applique Zip Through Hoodie And Relaxed Jogger Tracksuit", Price = 60, CategoryId = 6, ImagePath = "/img/Burgundy Oversized Boxy Cross Applique Zip Through Hoodie And Relaxed Jogger Tracksuit.png", DetailsCare = "60% Baumwolle 40% Polyester" },
+                new Product { Id = 20, Name = "Sage Oversized Boxy ABODE Hoodie", Price = 25, CategoryId = 8, ImagePath = "/img/Sage Oversized Boxy ABODE Hoodie.png", DetailsCare = "50% Baumwolle, 50% Polyester" },
+                new Product { Id = 21, Name = "Sand Monaco Back Print Sweatshirt", Price = 30, CategoryId = 8, ImagePath = "/img/Sand Monaco Back Print Sweatshirt.png", DetailsCare = "50% Baumwolle und 50% Polyester, das Model ist 185cm groß und trägt Größe M." },
+                new Product { Id = 22, Name = "Yellow Oversized PU Badge Moto Jacket", Price = 70, CategoryId = 9, ImagePath = "/img/Yellow Oversized PU Badge Moto Jacket.png", DetailsCare = "100% Polyurethane. Model is 6'1 and wears size M." },
+                new Product { Id = 23, Name = "Washed black Oversized Dirty Wash Carpenter Denim Biker Jacket", Price = 40, CategoryId = 9, ImagePath = "/img/Washed black Oversized Dirty Wash Carpenter Denim Biker Jacket.png", DetailsCare = "100% Baumwolle. Model ist 185cm groß und trägt Größe M" },
+                new Product { Id = 24, Name = "Stone Fixed Waist Relaxed Applique Print Trouser", Price = 35, CategoryId = 10, ImagePath = "/img/Stone Fixed Waist Relaxed Applique Print Trouser.png", DetailsCare = "100% Cotton. Model is 6'1 and wears size M/ 32." },
+                new Product { Id = 25, Name = "Slate Elasticated Waist Relaxed Fit Buckle Cargo Trouser", Price = 35, CategoryId = 10, ImagePath = "/img/Slate Elasticated Waist Relaxed Fit Buckle Cargo Trouser.png", DetailsCare = "100% Cotton. Model is 6'1 and wears size M." },
+                new Product { Id = 26, Name = "Grey Slim Fit Elasticated Waist Cargo Shorts", Price = 22, CategoryId = 11, ImagePath = "/img/Grey Slim Fit Elasticated Waist Cargo Shorts.png", DetailsCare = "98% Baumwolle, 2% Elasthan. Model ist 185cm groß und trägt Größe M." },
+                new Product { Id = 27, Name = "Charcoal Oversized Drop Crotch Rib Hem Loopback Short", Price = 20, CategoryId = 11, ImagePath = "/img/Charcoal Oversized Drop Crotch Rib Hem Loopback Short.png", DetailsCare = "52% Polyester, 48% Baumwolle. Model ist 185cm groß und trägt Größe M" },
+                new Product { Id = 28, Name = "Blue Relaxed Fit Split Hem Jacquard Joggers", Price = 30, CategoryId = 13, ImagePath = "/img/Blue Relaxed Fit Split Hem Jacquard Joggers.png", DetailsCare = "60% Baumwolle, 40% Polyester. Model ist 185cm groß und trägt EU Größe M." },
+                new Product { Id = 29, Name = "Mint Plus Oversized Heavy Washed Applique Jogger", Price = 30, CategoryId = 13, ImagePath = "/img/Mint Plus Oversized Heavy Washed Applique Jogger.png", DetailsCare = "80% cotton 20% polyester. Model is 6\\'1 and wears a size 3XL" },
+                new Product { Id = 30, Name = "Olive Fixed Waist Slim Stacked Flare Strap Cargo Trouser", Price = 40, CategoryId = 14, ImagePath = "/img/Olive Fixed Waist Slim Stacked Flare Strap Cargo Trouser.png", DetailsCare = "98% Baumwolle, 2% Elastan. Das Model ist 185cm groß und trägt Größe 32" },
+                new Product { Id = 31, Name = "Grey Plus Fixed Waist Straight Fit Cargo Trousers", Price = 30, CategoryId = 14, ImagePath = "/img/Grey Plus Fixed Waist Straight Fit Cargo Trousers.png", DetailsCare = "100% cotton. This model is 6\"1 and wears a size 3XL." }
             );
 
             modelBuilder.Entity<ShoppingCart>().HasData(
@@ -206,6 +207,18 @@ namespace ECommerce.Repositories.Context
                 .HasOne(sci => sci.Size)
                 .WithMany(s => s.ShoppingCartItems)
                 .HasForeignKey(sci => sci.SizeId);
+
+            modelBuilder.Entity<FavoriteProducts>()
+                .HasOne(fp => fp.Product)
+                .WithMany()
+                .HasForeignKey(fp => fp.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<FavoriteProducts>()
+                .HasOne(fp => fp.User)
+                .WithMany() // Bu kısmı ihtiyaçlarınıza göre ayarlayın
+                .HasForeignKey(fp => fp.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

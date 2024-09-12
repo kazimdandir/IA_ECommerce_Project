@@ -6173,6 +6173,25 @@ button.bg-dark:focus {
   background-color: #030303 !important;
 }
 
+.bg-light {
+    background-color: #f5f5f5 !important; /* Light beige */
+}
+
+.btn-outline-dark {
+    border-color: #333;
+    color: #333;
+}
+
+    .btn-outline-dark:hover {
+        background-color: #333;
+        color: #fff;
+    }
+
+.text-dark {
+    color: #333 !important;
+}
+
+
 .bg-white {
   background-color: #fff !important;
 }

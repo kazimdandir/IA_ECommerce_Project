@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Repositories.Migrations
 {
     [DbContext(typeof(ECommerceDbContext))]
-    [Migration("20240909062614_testMig")]
+    [Migration("20240912152907_testMig")]
     partial class testMig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,17 +100,17 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "33b57d7c-5f6a-4dc2-899d-ab5156c563e2",
+                            ConcurrencyStamp = "6ed93626-fec6-4df9-9a29-fa7ae2ec0964",
                             Email = "johndoe@example.com",
                             EmailConfirmed = true,
                             FullName = "John Doe",
                             LockoutEnabled = false,
                             NormalizedEmail = "JOHNDOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHNDOE",
-                            PasswordHash = "AQAAAAEAACcQAAAAEB8xhaGsIDCPiHtMNX3IVrXksyLnR/3nyCpr26X1AHwHi6haXtD08XOZGB3KdaTnxQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECQtX+ydwyiff3wHg0KPcMn3ktG4VaJ3KZVVq0G7poxuh0jNFCUGSpUbNbKwZ2L64A==",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "8fcf5de4-6abc-47cf-bb1e-2181e2dbafb5",
+                            SecurityStamp = "b30e10a0-871b-4b5f-b4d6-d5bfe5a4390a",
                             TwoFactorEnabled = false,
                             UserName = "johndoe"
                         },
@@ -118,17 +118,17 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3344dba5-2dcd-49b8-98ec-eaa320352ae5",
+                            ConcurrencyStamp = "58749d8f-b52f-454b-9d98-408fb2e5b1cf",
                             Email = "janesmith@example.com",
                             EmailConfirmed = true,
                             FullName = "Jane Smith",
                             LockoutEnabled = false,
                             NormalizedEmail = "JANESMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANESMITH",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKUMQC2c1coB8yli3Wfxt1nmC56gFj7DWsAX7Myyr/bbAJ7xSDD4XoDOSIMQ5lJ5kw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKepD5b8wO+mcBmwovcwjumx+xxlvZHWjPNfK1o+Gm4OXFJCLgWdl97h28a/gCAt4g==",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "52aa1277-2a8a-4434-bd5d-0067123ebbab",
+                            SecurityStamp = "c72dd7a7-7f72-4fa3-b0b2-b41fea2687ec",
                             TwoFactorEnabled = false,
                             UserName = "janesmith"
                         });
@@ -223,6 +223,40 @@ namespace ECommerce.Repositories.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ECommerce.Entities.FavoriteProducts", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductId1")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ProductId1");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavoriteProducts");
+                });
+
             modelBuilder.Entity("ECommerce.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -235,6 +269,10 @@ namespace ECommerce.Repositories.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DetailsCare")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImagePath")
@@ -258,6 +296,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 1,
                             CategoryId = 5,
+                            DetailsCare = "100% cotton. Model is 6\"1 and wears a size 3XL",
                             ImagePath = "/img/Oversized Bird Graphic T-shirt.png",
                             Name = "Oversized Bird Graphic T-shirt",
                             Price = 14m
@@ -266,6 +305,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 2,
                             CategoryId = 5,
+                            DetailsCare = "100% Baumwolle. Das Model ist 185cm groß und trägt Größe M",
                             ImagePath = "/img/Oversized Deadpool Cereal License Print T-shirt.png",
                             Name = "Oversized Deadpool Cereal License Print T-shirt",
                             Price = 20m
@@ -274,6 +314,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 3,
                             CategoryId = 5,
+                            DetailsCare = "100% Baumwolle",
                             ImagePath = "/img/Chocolate Oversized Extended Neck ABODE T-shirt.png",
                             Name = "Chocolate Oversized Extended Neck ABODE T-shirt",
                             Price = 14m
@@ -282,6 +323,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 4,
                             CategoryId = 7,
+                            DetailsCare = "100% COTTON. MODEL IS 6'1 AND WEARS SIZE 32.",
                             ImagePath = "/img/Baggy Rigid Jean.png",
                             Name = "Baggy Rigid Jean",
                             Price = 25m
@@ -290,6 +332,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 5,
                             CategoryId = 7,
+                            DetailsCare = "100% COTTON. MODEL IS 6'1 AND WEARS SIZE 32.",
                             ImagePath = "/img/Chocolate Relaxed Rigid Flare Patchwork Jeans.png",
                             Name = "Chocolate Relaxed Rigid Flare Patchwork Jeans",
                             Price = 42m
@@ -298,6 +341,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 6,
                             CategoryId = 7,
+                            DetailsCare = "100% Baumwolle. Das Model ist 185cm groß und trägt Größe 32.",
                             ImagePath = "/img/Grey Slim Flared All Over Ripped Jeans With Let Down Hem.png",
                             Name = "Grey Slim Flared All Over Ripped Jeans With Let Down Hem",
                             Price = 35m
@@ -306,6 +350,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 7,
                             CategoryId = 12,
+                            DetailsCare = "50% Viskose, 40% Baumwolle, 10% Leinen. Das Model ist 185cm groß und trägt Größe M",
                             ImagePath = "/img/Short Sleeve Linen Shirt.png",
                             Name = "Short Sleeve Linen Shirt",
                             Price = 50m
@@ -314,6 +359,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 8,
                             CategoryId = 12,
+                            DetailsCare = "100% Polyester. Model ist 185cm geoß und trägt Größe M.",
                             ImagePath = "/img/Green Satin Oversized Revere Statue Border Shirt.png",
                             Name = "Green Satin Oversized Revere Statue Border Shirt",
                             Price = 28m
@@ -322,6 +368,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 9,
                             CategoryId = 1,
+                            DetailsCare = "Upper: Polyurethane (PU) Lining: Textile Insole: Textile Outsole: Thermoplastic Rubber (TPR)",
                             ImagePath = "/img/Tonal Chunky Trainers In Blue.png",
                             Name = "Tonal Chunky Trainers In Blue",
                             Price = 35m
@@ -330,6 +377,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 10,
                             CategoryId = 1,
+                            DetailsCare = "UPPER/LINING : 100% PU SYNTHETIC, SOLE: 100% THERMOPLASTIC RUBBER",
                             ImagePath = "/img/Stone Track Sole Loafer.png",
                             Name = "Stone Track Sole Loafer",
                             Price = 35m
@@ -338,6 +386,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 11,
                             CategoryId = 1,
+                            DetailsCare = "UPPER : 100% TEXTILE LINING : 100%PU SYNTH , SOCKS: 100%PU SYNTH, MID SOLE : 100% PU SOLE : 100% EVA",
                             ImagePath = "/img/Red Tapestry Buckle Detail Mule.png",
                             Name = "Red Tapestry Buckle Detail Mule",
                             Price = 32m
@@ -346,6 +395,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 12,
                             CategoryId = 2,
+                            DetailsCare = "zinc alloy+glass",
                             ImagePath = "/img/Silver Cuban Chain Jean Chain.png",
                             Name = "Silver Cuban Chain Jean Chain",
                             Price = 10m
@@ -354,6 +404,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 13,
                             CategoryId = 2,
+                            DetailsCare = "90%zinc alloy+8%glass+2%epoxy",
                             ImagePath = "/img/Silver 3 Pack Mixed Bead Rings.png",
                             Name = "Silver 3 Pack Mixed Bead Rings",
                             Price = 8m
@@ -362,6 +413,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 14,
                             CategoryId = 3,
+                            DetailsCare = "80% Polyester, 20% Kunststoff",
                             ImagePath = "/img/BM Flames Cap In Black.png",
                             Name = "BM Flames Cap In Black",
                             Price = 8m
@@ -370,6 +422,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 15,
                             CategoryId = 3,
+                            DetailsCare = "100% acrylic",
                             ImagePath = "/img/Black Gothic Logo Jacquard Beanie.png",
                             Name = "Black Gothic Logo Jacquard Beanie",
                             Price = 12m
@@ -378,6 +431,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 16,
                             CategoryId = 4,
+                            DetailsCare = "90% Polycarbonate 10% Copper",
                             ImagePath = "/img/Star Rimless Sunglasses In Red.png",
                             Name = "Star Rimless Sunglasses In Red",
                             Price = 8m
@@ -386,6 +440,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 17,
                             CategoryId = 4,
+                            DetailsCare = "90% Metal, 10% Plastic.",
                             ImagePath = "/img/Brown Aviator Matte Sunglasses.png",
                             Name = "Brown Aviator Matte Sunglasses",
                             Price = 6m
@@ -394,6 +449,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 18,
                             CategoryId = 6,
+                            DetailsCare = "60% Cotton 40% Polyester. Model is 6'1 and wears size M.",
                             ImagePath = "/img/Black Oversized Boxy Over The Seams Eagle Graphic Tracksuit.png",
                             Name = "Black Oversized Boxy Over The Seams Eagle Graphic Tracksuit",
                             Price = 45m
@@ -402,6 +458,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 19,
                             CategoryId = 6,
+                            DetailsCare = "60% Baumwolle 40% Polyester",
                             ImagePath = "/img/Burgundy Oversized Boxy Cross Applique Zip Through Hoodie And Relaxed Jogger Tracksuit.png",
                             Name = "Burgundy Oversized Boxy Cross Applique Zip Through Hoodie And Relaxed Jogger Tracksuit",
                             Price = 60m
@@ -410,6 +467,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 20,
                             CategoryId = 8,
+                            DetailsCare = "50% Baumwolle, 50% Polyester",
                             ImagePath = "/img/Sage Oversized Boxy ABODE Hoodie.png",
                             Name = "Sage Oversized Boxy ABODE Hoodie",
                             Price = 25m
@@ -418,6 +476,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 21,
                             CategoryId = 8,
+                            DetailsCare = "50% Baumwolle und 50% Polyester, das Model ist 185cm groß und trägt Größe M.",
                             ImagePath = "/img/Sand Monaco Back Print Sweatshirt.png",
                             Name = "Sand Monaco Back Print Sweatshirt",
                             Price = 30m
@@ -426,6 +485,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 22,
                             CategoryId = 9,
+                            DetailsCare = "100% Polyurethane. Model is 6'1 and wears size M.",
                             ImagePath = "/img/Yellow Oversized PU Badge Moto Jacket.png",
                             Name = "Yellow Oversized PU Badge Moto Jacket",
                             Price = 70m
@@ -434,6 +494,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 23,
                             CategoryId = 9,
+                            DetailsCare = "100% Baumwolle. Model ist 185cm groß und trägt Größe M",
                             ImagePath = "/img/Washed black Oversized Dirty Wash Carpenter Denim Biker Jacket.png",
                             Name = "Washed black Oversized Dirty Wash Carpenter Denim Biker Jacket",
                             Price = 40m
@@ -442,6 +503,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 24,
                             CategoryId = 10,
+                            DetailsCare = "100% Cotton. Model is 6'1 and wears size M/ 32.",
                             ImagePath = "/img/Stone Fixed Waist Relaxed Applique Print Trouser.png",
                             Name = "Stone Fixed Waist Relaxed Applique Print Trouser",
                             Price = 35m
@@ -450,6 +512,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 25,
                             CategoryId = 10,
+                            DetailsCare = "100% Cotton. Model is 6'1 and wears size M.",
                             ImagePath = "/img/Slate Elasticated Waist Relaxed Fit Buckle Cargo Trouser.png",
                             Name = "Slate Elasticated Waist Relaxed Fit Buckle Cargo Trouser",
                             Price = 35m
@@ -458,6 +521,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 26,
                             CategoryId = 11,
+                            DetailsCare = "98% Baumwolle, 2% Elasthan. Model ist 185cm groß und trägt Größe M.",
                             ImagePath = "/img/Grey Slim Fit Elasticated Waist Cargo Shorts.png",
                             Name = "Grey Slim Fit Elasticated Waist Cargo Shorts",
                             Price = 22m
@@ -466,6 +530,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 27,
                             CategoryId = 11,
+                            DetailsCare = "52% Polyester, 48% Baumwolle. Model ist 185cm groß und trägt Größe M",
                             ImagePath = "/img/Charcoal Oversized Drop Crotch Rib Hem Loopback Short.png",
                             Name = "Charcoal Oversized Drop Crotch Rib Hem Loopback Short",
                             Price = 20m
@@ -474,6 +539,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 28,
                             CategoryId = 13,
+                            DetailsCare = "60% Baumwolle, 40% Polyester. Model ist 185cm groß und trägt EU Größe M.",
                             ImagePath = "/img/Blue Relaxed Fit Split Hem Jacquard Joggers.png",
                             Name = "Blue Relaxed Fit Split Hem Jacquard Joggers",
                             Price = 30m
@@ -482,6 +548,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 29,
                             CategoryId = 13,
+                            DetailsCare = "80% cotton 20% polyester. Model is 6\\'1 and wears a size 3XL",
                             ImagePath = "/img/Mint Plus Oversized Heavy Washed Applique Jogger.png",
                             Name = "Mint Plus Oversized Heavy Washed Applique Jogger",
                             Price = 30m
@@ -490,6 +557,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 30,
                             CategoryId = 14,
+                            DetailsCare = "98% Baumwolle, 2% Elastan. Das Model ist 185cm groß und trägt Größe 32",
                             ImagePath = "/img/Olive Fixed Waist Slim Stacked Flare Strap Cargo Trouser.png",
                             Name = "Olive Fixed Waist Slim Stacked Flare Strap Cargo Trouser",
                             Price = 40m
@@ -498,6 +566,7 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = 31,
                             CategoryId = 14,
+                            DetailsCare = "100% cotton. This model is 6\"1 and wears a size 3XL.",
                             ImagePath = "/img/Grey Plus Fixed Waist Straight Fit Cargo Trousers.png",
                             Name = "Grey Plus Fixed Waist Straight Fit Cargo Trousers",
                             Price = 30m
@@ -1053,6 +1122,33 @@ namespace ECommerce.Repositories.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ECommerce.Entities.FavoriteProducts", b =>
+                {
+                    b.HasOne("ECommerce.Entities.ApplicationUser", null)
+                        .WithMany("FavoriteProducts")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("ECommerce.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ECommerce.Entities.Product", null)
+                        .WithMany("FavoriteProducts")
+                        .HasForeignKey("ProductId1");
+
+                    b.HasOne("ECommerce.Entities.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ECommerce.Entities.Product", b =>
                 {
                     b.HasOne("ECommerce.Entities.Category", "Category")
@@ -1155,6 +1251,8 @@ namespace ECommerce.Repositories.Migrations
 
             modelBuilder.Entity("ECommerce.Entities.ApplicationUser", b =>
                 {
+                    b.Navigation("FavoriteProducts");
+
                     b.Navigation("ShoppingCarts");
                 });
 
@@ -1165,6 +1263,8 @@ namespace ECommerce.Repositories.Migrations
 
             modelBuilder.Entity("ECommerce.Entities.Product", b =>
                 {
+                    b.Navigation("FavoriteProducts");
+
                     b.Navigation("ShoppingCartItems");
                 });
 

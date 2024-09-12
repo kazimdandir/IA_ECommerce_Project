@@ -20,6 +20,9 @@ builder.Services.AddScoped<ICategoryRepository<Category>, CategoryRepository>();
 builder.Services.AddScoped<ISizeServices<Size>, SizeManager>();
 builder.Services.AddScoped<ISizeRepository<Size>, SizeRepository>();
 
+builder.Services.AddScoped<IFavoriteProductServices<FavoriteProducts>, FavoriteProductManager>();
+builder.Services.AddScoped<IFavoriteProductRepository<FavoriteProducts>, FavoriteProductRepository>();
+
 // Add DbContext
 builder.Services.AddDbContext<ECommerceDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ECommerceDb")));

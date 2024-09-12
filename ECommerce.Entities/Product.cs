@@ -19,8 +19,11 @@ namespace ECommerce.Entities
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public string? ImagePath { get; set; }
+        public string DetailsCare { get; set; }  // Ürünün bakım ve detay açıklamaları için yeni özellik
 
         public ICollection<ShoppingCartItem> ShoppingCartItems { get; set; }
+        public ICollection<FavoriteProducts> FavoriteProducts { get; set; } // Favori ürünler
+
     }
 }
 

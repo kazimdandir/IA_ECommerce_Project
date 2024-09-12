@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ECommerce.Entities.FavoriteProducts>
+
+@{
+    ViewData["Title"] = "Get All Favorites";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No favorite products found.</p>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Product Image</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var favorite in Model)
+            {
+                var product = favorite.Product; // Product ilişkisinin null olmadığını kontrol edin
+                if (product != null)
+                {
+                    <tr>
+                        <td>
+                            <img src="@Url.Content(product.ImagePath)" alt="@product.Name" style="width: 100px; height: auto;" />
+                        </td>
+                        <td>@product.Name</td>
+                        <td>@string.Format("${0:N2}", product.Price)</td>
+                        <td>@product.Category?.Name</td> <!-- Category ilişkisinin null olmadığını kontrol edin -->
+                        <td>
+                            <form asp-action="RemoveFromFavorites" method="post" style="display:inline;">
+                                <input type="hidden" name="productId" value="@favorite.ProductId" />
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i> Remove
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+

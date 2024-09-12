@@ -27,7 +27,7 @@ namespace ECommerce.Services.Concrete
             }
             else
             {
-                throw new Exception("Category cannot be empty!");
+                throw new Exception("Favorite cannot be empty!");
             }
         }
 
