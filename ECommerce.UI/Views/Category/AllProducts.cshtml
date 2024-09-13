@@ -43,9 +43,12 @@
                         <p class="text-center">Size: @string.Join(", ", product.ShoppingCartItems?.Select(i => i.Size?.SizeName) ?? new List<string>())</p>
                     </div>
                     <div class="card-footer d-flex justify-content-between bg-white border-0">
-                        <a href="#" class="btn btn-outline-primary w-50 mx-1">Add to Cart</a>
+                        <!-- AddToCart button with proper routing -->
+                        <form asp-controller="Category" asp-action="AddToCart" method="post" style="width: 100%;">
+                            <input type="hidden" name="productId" value="@product.Id" />
+                            <button type="submit" class="btn btn-outline-primary w-50 mx-1">Add to Cart</button>
+                        </form>
                         <a href="@Url.Action("ProductDetails", "Category", new { id = product.Id })" class="btn btn-outline-secondary w-50 mx-1 view-details">View Details</a>
-
                     </div>
                 </div>
             </div>

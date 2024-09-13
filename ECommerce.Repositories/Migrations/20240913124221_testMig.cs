@@ -272,7 +272,7 @@ namespace ECommerce.Repositories.Migrations
                     ShoppingCartId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    SizeId = table.Column<int>(type: "int", nullable: false)
+                    SizeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -302,8 +302,9 @@ namespace ECommerce.Repositories.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Role", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "6ed93626-fec6-4df9-9a29-fa7ae2ec0964", "johndoe@example.com", true, "John Doe", false, null, "JOHNDOE@EXAMPLE.COM", "JOHNDOE", "AQAAAAEAACcQAAAAECQtX+ydwyiff3wHg0KPcMn3ktG4VaJ3KZVVq0G7poxuh0jNFCUGSpUbNbKwZ2L64A==", null, false, 0, "b30e10a0-871b-4b5f-b4d6-d5bfe5a4390a", false, "johndoe" },
-                    { "2", 0, "58749d8f-b52f-454b-9d98-408fb2e5b1cf", "janesmith@example.com", true, "Jane Smith", false, null, "JANESMITH@EXAMPLE.COM", "JANESMITH", "AQAAAAEAACcQAAAAEKepD5b8wO+mcBmwovcwjumx+xxlvZHWjPNfK1o+Gm4OXFJCLgWdl97h28a/gCAt4g==", null, false, 0, "c72dd7a7-7f72-4fa3-b0b2-b41fea2687ec", false, "janesmith" }
+                    { "1", 0, "840c569c-bbf5-4697-b3b4-ba24d863fea4", "johndoe@example.com", true, "John Doe", false, null, "JOHNDOE@EXAMPLE.COM", "JOHNDOE", "AQAAAAEAACcQAAAAEDDWhzxKurHEF0/gu5tqDKRPmvxL6Zqo350GfyvY7RJmw8dW7wJjbT4aBWaNXKV4mg==", null, false, 0, "c6e0d403-dd11-48cc-904d-8463fb52bf60", false, "johndoe" },
+                    { "2", 0, "5b7e4ca3-6cd5-42df-acef-7af3f4cccb8b", "janesmith@example.com", true, "Jane Smith", false, null, "JANESMITH@EXAMPLE.COM", "JANESMITH", "AQAAAAEAACcQAAAAED+R1Kgmgv2MtL2jdciUOiAi1N0w9qYwKMyWyY2xwVirXyE+uw4cU/vvDknIj0KSVQ==", null, false, 0, "3afc6a51-5a2a-496c-8b2a-dca3e1ed2c29", false, "janesmith" },
+                    { "3", 0, "11c16693-a7b9-4844-b3ab-daafed88fb37", "kikbal.dandir@gmail.com", true, "Kazım İkbal Dandır", false, null, "KAZIMIKBALDANDIR@GMAIL.COM", "KAZIMIKBALDANDIR", "Kazim.123", null, false, 0, "184e318e-e773-4709-92aa-814ac0735066", false, "kazimdandir" }
                 });
 
             migrationBuilder.InsertData(

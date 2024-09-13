@@ -11,9 +11,9 @@ namespace ECommerce.Services.Concrete
 {
     public class UserManager : IUserService<ApplicationUser>
     {
-        private readonly IUserReposiory<ApplicationUser> _userRepository;
+        private readonly IUserRepository<ApplicationUser> _userRepository;
 
-        public UserManager(IUserReposiory<ApplicationUser> userRepository)
+        public UserManager(IUserRepository<ApplicationUser> userRepository)
         {
             _userRepository = userRepository;
         }

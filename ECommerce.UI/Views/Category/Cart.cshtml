@@ -1,0 +1,190 @@
+﻿@model IEnumerable<ECommerce.Entities.ShoppingCartItem>
+
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+        .cart-table th, .cart-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .cart-table th {
+            background-color: #f4f4f4;
+        }
+
+        .cart-table td img {
+            max-width: 100px;
+            height: auto;
+        }
+
+    .cart-summary {
+        text-align: right;
+        margin-top: 20px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+        .btn-primary:hover, .btn-danger:hover {
+            opacity: 0.8;
+        }
+</style>
+
+@if (Model.Any())
+{
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price (USD)</th>
+                <th>Total (USD)</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="@item.Product.ImagePath" alt="@item.Product.Name" />
+                        @item.Product.Name
+                    </td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Product.Price.ToString("C", new System.Globalization.CultureInfo("en-US"))</td>
+                    <td>@(item.Quantity * item.Product.Price) $</td>
+                    <td>
+                        <form asp-action="RemoveFromCart" method="post" style="display:inline;">
+                            <input type="hidden" name="shoppingCartItemId" value="@item.Id" />
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="cart-summary">
+        <h3>Cart Summary</h3>
+        <p>Total: @Model.Sum(item => item.Quantity * item.Product.Price).ToString("C", new System.Globalization.CultureInfo("en-US"))</p>
+        <form asp-action="Checkout" method="get">
+            <button type="submit" class="btn btn-primary">Confirm Cart</button>
+        </form>
+    </div>
+}
+else
+{
+    <p>Your cart is empty.</p>
+}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // Eğer ödeme başarılıysa
+    @if (ViewBag.PaymentSuccess != null && ViewBag.PaymentSuccess == true)
+    {
+        <text>
+            Swal.fire({
+                icon: 'success',
+                title: 'Payment Successful',
+                text: 'Your payment has been successfully processed and your cart has been cleared!',
+                confirmButtonText: 'OK'
+            });
+        </text>
+    }
+</script>
+
+<style>
+    .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+        .cart-table th, .cart-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .cart-table th {
+            background-color: #f4f4f4;
+        }
+
+        .cart-table td img {
+            max-width: 100px;
+            height: auto;
+        }
+
+    .cart-summary {
+        text-align: right;
+        margin-top: 20px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+        .btn-primary:hover, .btn-danger:hover {
+            opacity: 0.8;
+        }
+</style>

@@ -1,5 +1,6 @@
 ﻿using ECommerce.Entities;
 using ECommerce.Repositories.Abstract;
+using ECommerce.Repositories.Concrete;
 using ECommerce.Services.Abstract;
 using System;
 using System.Collections.Generic;
@@ -49,3 +50,4 @@ namespace ECommerce.Services.Concrete
         }
     }
 }
+

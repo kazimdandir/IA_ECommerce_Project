@@ -6,43 +6,46 @@
 
 <div class="container my-5">
     <div class="row">
-        <!-- Left column: Product Images -->
+        <!-- Sol Kolon: Ürün Resimleri -->
         <div class="col-md-5">
             <div class="d-flex">
-                <!-- Main Image -->
+                <!-- Ana Resim -->
                 <div class="flex-grow-1 position-relative">
                     <img id="mainProductImage" src="@(!string.IsNullOrEmpty(Model.ImagePath) ? Url.Content(Model.ImagePath) : "~/img/default-product.jpg")" alt="Product Image" class="img-fluid main-product-image" />
-                    <!-- Büyüteç penceresi -->
+                    <!-- Büyüteç Penceresi -->
                     <div id="zoomLens" class="zoom-lens"></div>
-                    <!-- Büyütülmüş görünüm -->
+                    <!-- Büyütülmüş Görünüm -->
                     <div id="zoomResult" class="zoom-result"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Right column: Product Details -->
+        <!-- Sağ Kolon: Ürün Detayları -->
         <div class="col-md-7">
             <h1>@Model.Name</h1>
 
-            <!-- Price and Discount -->
-            <h2 class="text-danger">@Model.Price.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-US")) <small class="text-muted"><del>$28.00</del></small> <span class="badge bg-danger">50% OFF</span></h2>
+            <!-- Fiyat ve İndirim -->
+            <h2 class="text-danger">
+                @Model.Price.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-US"))
+                <small class="text-muted"><del>$28.00</del></small>
+                <span class="badge bg-danger">50% OFF</span>
+            </h2>
 
-            <!-- Dynamically display sizes -->
-            <p><strong>Size:</strong> @string.Join(", ", Model.ShoppingCartItems?.Select(i => i.Size?.SizeName) ?? new List<string>())</p>
+            <!-- Dinamik Olarak Boyutları Göster -->
+            <p><strong>Size:</strong> @string.Join(", ", Model.ShoppingCartItems?.Select(i => i.Size?.SizeName) ?? new List<string>())</p>            
 
-            <!-- Quantity selector -->
-            <div class="form-group mt-3">
-                <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" name="quantity" value="1" min="1" class="form-control w-25" />
-            </div>
+            <form asp-action="AddToCart" method="post">
+                <input type="hidden" name="productId" value="@Model.Id" />
+                <input type="number" name="quantity" min="1" value="1" />
+                <button type="submit" class="btn btn-primary btn-lg">Add to Cart</button>
+            </form>
 
-            <!-- Add to Cart and Wishlist buttons -->
+            <!-- Sepete Ekle ve İstek Listesi Butonları -->
             <div class="mt-3">
-                <button class="btn btn-primary btn-lg">Add to Cart</button>
                 <button id="addToWishlist" class="btn btn-outline-secondary btn-lg">Add to Wish List</button>
             </div>
 
-            <!-- Collapsible Product Information Section -->
+            <!-- Katlanabilir Ürün Bilgi Bölümü -->
             <div class="row mt-5">
                 <div class="col-12">
                     <div class="product-info-box border p-3">
@@ -57,48 +60,12 @@
                                 <strong><u>Style Notes</u></strong>
                                 @if (Model.Category.Name == "Footwear")
                                 {
-                                    <p>Fashion-forward footwear is at the heart of every stylish look and our collection of shoes for men is here to turn your everyday uniform from laid-back to trendy in no time. Refresh your trainers treasury in time for the new season with a pair of smart faux leather trainers, or add a dose of stylishness to your ensemble with our selection of boots. If you are looking for a simple way to give your combo a more sophisticated twist, brogues are your best friends.</p>
+                                    <p>Fashion-forward footwear is at the heart of every stylish look and our collection of shoes for men is here to turn your everyday uniform from laid-back to trendy in no time...</p>
                                 }
                                 else if (Model.Category.Name == "Jewellery" || Model.Category.Name == "Hats & Caps" || Model.Category.Name == "Sunglasses")
                                 {
-                                    <p>Some well-picked accessories can make all the difference when you are trying to boss out some serious style, so don’t overlook our selection of accessories for men. Belts are the perfect way to round off a look smoothly, whilst a strong watch can upgrade your casual outfit in no time. Combat the cold in style with our collection of beanies and heavyweight scarves, or make the most of festival season with a pair of vintage sunglasses and a cross body bag. Fashion's finishing touches are all in the accessories.</p>
+                                    <p>Some well-picked accessories can make all the difference when you are trying to boss out some serious style...</p>
                                 }
-                                else if (Model.Category.Name == "T-Shirts")
-                                {
-                                    <p>We all know about t-shirts and vests, light layers which have stood the test of time. T-shirts are a seasonless staple which gives your wardrobe a solid foundation to build off. Whether you’re about a plain tee, printed, striped or long-sleeve or you’re flexing something oversized for a comfortably casual look, make sure your outfits have the foundations they need with our range of tees and vests. Combine a plain white tee with denim and trainers for a versatile everyday outfit or pair with cropped trousers to secure minimalistic vibes.</p>
-                                }
-                                else if (Model.Category.Name == "Tracksuits")
-                                {
-                                    <p>Mix and match shapes and colours with this uber-stylish collection of hooded tracksuits, designed to go from sofa to streets with no extra effort. Show off your lines with a skinny fit set, or pick an oversized hoodie and joggers duo for comfy street casual. With a white tee and trainers you can rock any combo – how about all black for a bold monochrome, long sleeves and shorts for casual summer party vibes or even baby pink or blue for a softer aesthetic. Whichever you choose, with our range of hooded men's tracksuits you'll look effortlessly cool both in the gym and out.</p>
-                                }
-                                else if (Model.Category.Name == "Jeans")
-                                {
-                                    <p>Covering that grey area between smart and casual, jeans are always a solid option when it comes to men's outfits. Jeans are the ultimate staple in every guy's fashion line-up, and they go with just about anything to create a go-to look. Our range of men’s jeans gives you the chance to elevate your daily outfit. Whether you prefer skinny denim or you rate a loose fit more, make sure you secure your denim selects here. Dress them down with a hoodie and white trainers, or dress them up with a blazer and slip-ons.</p>
-                                }
-                                else if (Model.Category.Name == "Hoodies & Sweatshirts")
-                                {
-                                    <p>Hoodies and sweatshirts are essential for boxing those clean, comfortable layers. Hoodies work as a classic mid-layer or a standalone everyday basic when the weather is a little bit warmer. When you want a minimal colourway to effortlessly finish off your outfit, choosing a sweatshirt is always a solid option. A staple in your wardrobe already, jersey hoodies and sweats are a failsafe grab-and-go for any occasion. Find the perfect casual top to complement your off-duty look in our selection of hoodies and sweats for men.</p>
-                                }
-                                else if (Model.Category.Name == "Coats & Jackets")
-                                {
-                                    <p>Rev up your outerwear inventory with our unrivalled collection of coats and jackets for men. Whether you are looking for a heavy coat to combat the low temperatures or a lightweight jacket to stand out at your favourite festival, we've got the trendiest designs to finish off your outfit. Puffers, parkas and borg jackets are the perfect choices if you want to bundle up without sacrificing on style, and they look great when teamed up with knitwear and denim. Bombers and overcoats are beyond versatile and can turn any getup from laid-back to dapper in no time. Denim jackets can't be missing in your trans-seasonal wardrobe, whilst cagoules and coach jackets will keep out the chill while you're out and about.</p>
-                                }
-                                else if (Model.Category.Name == "Trousers" || Model.Category.Name == "Cargos")
-                                {
-                                    <p>Swap your denim for trousers for extra style points. Put aside your jeans for a day and go for a pared down but at the same time casually dapper option with our collection of men's trousers. You'll be surprised at how easy is for any gent to look polished and sharp in a pair of smart pants and a cool top. Choose chinos or suit trousers for the office or formal occasions, and complete your ensemble with a nice shirt. For a night out with the lads, show some serious street style skills in cargo pants or cropped trousers. Pair them with a graphic tee and high-top trainers for extra style points.</p>
-                                }
-                                else if (Model.Category.Name == "Shorts")
-                                {
-                                    <p>Make a bigger splash with our superlative swimwear. Who said you can't make a style statement while on the beach? Check out our brand new edit of men's swim shorts and choose from endless styles, available in both short and mid lengths. Go for bright colours if you don't want to get unnoticed while under the sun, or opt for graphic prints to stand out at your mate's pool party this summer. Complete with a plain t-shirt or vest and a pair of cool sliders for the perfect holiday getup.</p>
-                                }
-                                else if (Model.Category.Name == "Shirts")
-                                {
-                                    <p>Introduce some subtle dapperness into your day-to-day lineup with a shirt. You'll be surprised at how easy it is to throw together a sophisticated ensemble with a plain shirt from our extensive range. If you want to look sharp by keeping it simple, pair a checked shirt with a blazer and skinny jeans. Finish off with Chelsea boots for an outfit that delivers dapperness from the office to the bar. If you are looking for the ultimate summer outfit, our selection of printed shirts will make sure you'll get noticed.</p>
-                                }
-                                else if (Model.Category.Name == "Joggers")
-                                {
-                                    <p>For a trendy outfit that offers comfort and practicality, choose joggers. Who said you can't make a style statement with a casual getup? Inject some street chic into your off-duty wardrobe with a pair of men's joggers from our unrivalled collection. Whether you are after the ultimate casual combo or you are just on the hunt for a pair of comfy sweatpants for your down time, our selection has you covered. Need some style inspo? Team your jogging bottoms with a plain hoodie and a denim jacket. For something a bit more on the smart side, combine a coat with black joggers and smart trainers.</p>
-                                }                                
                                 <strong><u>Details & Care</u></strong>
                                 <p>@Model.DetailsCare</p>
                             </ul>
@@ -107,7 +74,7 @@
                 </div>
             </div>
 
-            <!-- Collapsible Delivery Info Section -->
+            <!-- Katlanabilir Teslimat Bilgisi Bölümü -->
             <div class="row mt-3">
                 <div class="col-12">
                     <div class="product-info-box border p-3">
@@ -148,11 +115,11 @@
     </div>
 </div>
 
-<!-- SweetAlert for Wishlist -->
+<!-- SweetAlert için Script -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-     document.getElementById('addToWishlist').addEventListener('click', function () {
-        var productId = '@Model.Id'; // Product ID'yi buradan al
+    document.getElementById('addToWishlist').addEventListener('click', function () {
+        const productId = '@Model.Id'; // Ürün ID'sini buradan al
         fetch(`/Category/AddToFavorites?productId=${productId}`, {
             method: 'POST',
             headers: {
@@ -160,23 +127,71 @@
                 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
             },
         })
-        .then(response => response.json())
-        .then(data => {
-            Swal.fire({
-                title: 'Added to Wishlist!',
-                text: 'This product has been added to your wishlist.',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            });
+            .then(response => response.json())
+            .then(data => {
+                if (data.alreadyExists) {
+                    Swal.fire({
+                        title: 'Already in Wishlist!',
+                        text: 'This product is already in your wishlist.',
+                        icon: 'info',
+                        confirmButtonText: 'OK'
+                    });
+                } else if (data.success) {
+                    Swal.fire({
+                        title: 'Added to Wishlist!',
+                        text: 'This product has been added to your wishlist.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred while adding the product to your wishlist.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    document.getElementById('addToCart').addEventListener('click', function () {
+        const productId = '@Model.Id'; // Ürün ID'sini buradan al
+        const quantity = document.getElementById('quantity').value; // Miktarı al
+        fetch(`/Category/AddToCart`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+            },
+            body: JSON.stringify({ productId: productId, quantity: quantity })
         })
-        .catch(error => console.error('Error:', error));
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Added to Cart!',
+                        text: 'This product has been added to your cart.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred while adding the product to your cart.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
     });
 </script>
 
-<!-- CSS styles to match the design -->
+<!-- CSS Stil Ayarları -->
 <style>
     .product-details-section {
-        margin-top: 10px; /* Yukarıdaki kutuyla arasındaki boşluğu küçültün */
+        margin-top: 10px; /* Yukarıdaki kutu ile arasındaki boşluğu küçültün */
         padding-top: 0; /* İç boşluğu kaldırın veya ayarlayın */
     }
 
@@ -210,117 +225,31 @@
     }
 
     .btn-outline-secondary {
-        border-color: #ccc;
-        color: #555;
+        color: #ff4d4d;
+        border-color: #ff4d4d;
     }
 
-    .btn-outline-secondary:hover {
-        background-color: #ccc;
-        color: #333;
-    }
+        .btn-outline-secondary:hover {
+            background-color: #ff4d4d;
+            color: #fff;
+        }
 
-    .collapse + a:before {
-        content: "+ ";
-    }
-
-    .collapse.show + a:before {
-        content: "- ";
-    }
-
-    /* Büyüteç penceresi */
     .zoom-lens {
         position: absolute;
-        border: 1px solid #d4d4d4;
-        width: 100px;
-        height: 100px;
-        background-color: rgba(255, 255, 255, 0.5);
-        cursor: none;
-        display: none;
-        z-index: 100;
+        border: 1px solid #000;
+        opacity: 0.5;
+        cursor: crosshair;
+        border-radius: 50%;
     }
 
-    /* Büyütülmüş görsel alanı */
     .zoom-result {
-        border: 1px solid #d4d4d4;
-        width: 300px;
-        height: 300px;
-        display: none;
-        background-repeat: no-repeat;
-        background-size: 200%; /* Zoom seviyesi */
         position: absolute;
-        top: 0;
-        right:100%; /* Ana görselin sağında daha uzak bir konumda */
-        z-index: 99;
+        border: 1px solid #000;
+        opacity: 0.5;
+        display: none;
     }
+
+        .zoom-result img {
+            max-width: none;
+        }
 </style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const mainImage = document.getElementById('mainProductImage');
-        const zoomLens = document.getElementById('zoomLens');
-        const zoomResult = document.getElementById('zoomResult');
-
-        // Ana görselin src'sini zoomResult'un arka planına uygulamak
-        zoomResult.style.backgroundImage = `url('${mainImage.src}')`;
-
-        mainImage.addEventListener('mousemove', moveLens);
-        mainImage.addEventListener('mouseenter', function () {
-            zoomLens.style.display = 'block';
-            zoomResult.style.display = 'block';
-        });
-        mainImage.addEventListener('mouseleave', function () {
-            zoomLens.style.display = 'none';
-            zoomResult.style.display = 'none';
-        });
-
-        function moveLens(event) {
-            const pos = getMousePosition(mainImage, event);
-            const offset = getOffset(mainImage);
-
-            // Resmin genişliği ve yüksekliği: 470x705
-            const imageWidth = 470;
-            const imageHeight = 705;
-
-            // Lens pozisyonunu hesapla
-            let lensX = pos.x - (zoomLens.offsetWidth / 2);
-            let lensY = pos.y - (zoomLens.offsetHeight / 2);
-
-            // Lensin sınırlarını kontrol et
-            if (lensX < 0) lensX = 0;
-            if (lensY < 0) lensY = 0;
-            if (lensX > offset.width - zoomLens.offsetWidth) lensX = offset.width - zoomLens.offsetWidth;
-            if (lensY > offset.height - zoomLens.offsetHeight) lensY = offset.height - zoomLens.offsetHeight;
-
-            zoomLens.style.left = lensX + 'px';
-            zoomLens.style.top = lensY + 'px';
-
-            // Büyütme oranı (2x zoom)
-            const zoomFactorX = imageWidth / offset.width;
-            const zoomFactorY = imageHeight / offset.height;
-
-            // Arka plan pozisyonunu ayarla
-            const backgroundX = -(lensX * zoomFactorX);
-            const backgroundY = -(lensY * zoomFactorY);
-            zoomResult.style.backgroundPosition = `${backgroundX}px ${backgroundY}px`;
-        }
-
-        function getMousePosition(img, event) {
-            const imgRect = img.getBoundingClientRect();
-            const x = event.clientX - imgRect.left;
-            const y = event.clientY - imgRect.top;
-            return { x, y };
-        }
-
-        function getOffset(el) {
-            const rect = el.getBoundingClientRect();
-            return {
-                left: rect.left + window.scrollX,
-                top: rect.top + window.scrollY,
-                width: rect.width,
-                height: rect.height
-            };
-        }
-    });
-
-</script>
-

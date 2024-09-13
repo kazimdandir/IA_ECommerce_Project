@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Repositories.Abstract
 {
-    public interface IUserReposiory<T> where T : class
+    public interface IUserRepository<T> where T : class
     {
         Task<IEnumerable<ApplicationUser>> GetAllUsersAsync();
         Task<ApplicationUser> GetUserByIdAsync(string userId);

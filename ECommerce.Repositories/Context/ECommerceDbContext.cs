@@ -69,6 +69,17 @@ namespace ECommerce.Repositories.Context
                     NormalizedEmail = "JANESMITH@EXAMPLE.COM",
                     EmailConfirmed = true,
                     PasswordHash = hasher.HashPassword(null, "password")
+                },
+                new ApplicationUser
+                {
+                    Id = "3", // Given as String because IdentityUser's Id is usually a string
+                    FullName = "Kazım İkbal Dandır",
+                    UserName = "kazimdandir",
+                    NormalizedUserName = "KAZIMIKBALDANDIR",
+                    Email = "kikbal.dandir@gmail.com",
+                    NormalizedEmail = "KAZIMIKBALDANDIR@GMAIL.COM",
+                    EmailConfirmed = true,
+                    PasswordHash = "Kazim.123"
                 }
             );
 
@@ -181,6 +192,11 @@ namespace ECommerce.Repositories.Context
                 new ShoppingCartItem { Id = 30, ShoppingCartId = 1, ProductId = 30, Quantity = 1, SizeId = 3 },
                 new ShoppingCartItem { Id = 31, ShoppingCartId = 1, ProductId = 31, Quantity = 3, SizeId = 14 }
             );
+
+
+            modelBuilder.Entity<ShoppingCartItem>()
+                .Property(s => s.SizeId)
+                .IsRequired(false); // Nullable olarak işaretleme
 
             // Relationships
             modelBuilder.Entity<Product>()

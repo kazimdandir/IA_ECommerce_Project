@@ -22,7 +22,7 @@ builder.Services.AddScoped<IProductRepository<Product>, ProductRepository>();
 builder.Services.AddScoped<IProductServices<Product>, ProductManager>();
 builder.Services.AddScoped<IShoppingCartRepository<ShoppingCart>, ShoppingCartRepository>();
 builder.Services.AddScoped<IShoppingCartService<ShoppingCart>, ShoppingCartManager>();
-builder.Services.AddScoped<IUserReposiory<ApplicationUser>, UserRepository>();
+builder.Services.AddScoped<IUserRepository<ApplicationUser>, UserRepository>();
 builder.Services.AddScoped<IUserService<ApplicationUser>, UserManager>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));

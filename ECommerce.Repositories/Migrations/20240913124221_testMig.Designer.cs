@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Repositories.Migrations
 {
     [DbContext(typeof(ECommerceDbContext))]
-    [Migration("20240912152907_testMig")]
+    [Migration("20240913124221_testMig")]
     partial class testMig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,17 +100,17 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6ed93626-fec6-4df9-9a29-fa7ae2ec0964",
+                            ConcurrencyStamp = "840c569c-bbf5-4697-b3b4-ba24d863fea4",
                             Email = "johndoe@example.com",
                             EmailConfirmed = true,
                             FullName = "John Doe",
                             LockoutEnabled = false,
                             NormalizedEmail = "JOHNDOE@EXAMPLE.COM",
                             NormalizedUserName = "JOHNDOE",
-                            PasswordHash = "AQAAAAEAACcQAAAAECQtX+ydwyiff3wHg0KPcMn3ktG4VaJ3KZVVq0G7poxuh0jNFCUGSpUbNbKwZ2L64A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDDWhzxKurHEF0/gu5tqDKRPmvxL6Zqo350GfyvY7RJmw8dW7wJjbT4aBWaNXKV4mg==",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "b30e10a0-871b-4b5f-b4d6-d5bfe5a4390a",
+                            SecurityStamp = "c6e0d403-dd11-48cc-904d-8463fb52bf60",
                             TwoFactorEnabled = false,
                             UserName = "johndoe"
                         },
@@ -118,19 +118,37 @@ namespace ECommerce.Repositories.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "58749d8f-b52f-454b-9d98-408fb2e5b1cf",
+                            ConcurrencyStamp = "5b7e4ca3-6cd5-42df-acef-7af3f4cccb8b",
                             Email = "janesmith@example.com",
                             EmailConfirmed = true,
                             FullName = "Jane Smith",
                             LockoutEnabled = false,
                             NormalizedEmail = "JANESMITH@EXAMPLE.COM",
                             NormalizedUserName = "JANESMITH",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKepD5b8wO+mcBmwovcwjumx+xxlvZHWjPNfK1o+Gm4OXFJCLgWdl97h28a/gCAt4g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAED+R1Kgmgv2MtL2jdciUOiAi1N0w9qYwKMyWyY2xwVirXyE+uw4cU/vvDknIj0KSVQ==",
                             PhoneNumberConfirmed = false,
                             Role = 0,
-                            SecurityStamp = "c72dd7a7-7f72-4fa3-b0b2-b41fea2687ec",
+                            SecurityStamp = "3afc6a51-5a2a-496c-8b2a-dca3e1ed2c29",
                             TwoFactorEnabled = false,
                             UserName = "janesmith"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "11c16693-a7b9-4844-b3ab-daafed88fb37",
+                            Email = "kikbal.dandir@gmail.com",
+                            EmailConfirmed = true,
+                            FullName = "Kazım İkbal Dandır",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "KAZIMIKBALDANDIR@GMAIL.COM",
+                            NormalizedUserName = "KAZIMIKBALDANDIR",
+                            PasswordHash = "Kazim.123",
+                            PhoneNumberConfirmed = false,
+                            Role = 0,
+                            SecurityStamp = "184e318e-e773-4709-92aa-814ac0735066",
+                            TwoFactorEnabled = false,
+                            UserName = "kazimdandir"
                         });
                 });
 
@@ -621,7 +639,7 @@ namespace ECommerce.Repositories.Migrations
                     b.Property<int>("ShoppingCartId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SizeId")
+                    b.Property<int?>("SizeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

@@ -15,18 +15,18 @@ namespace ECommerce.UI.Controllers
         private readonly ICategoryServices<Category> _categoryService;
         private readonly ISizeServices<Size> _sizeService; // Add this line
         private readonly IFavoriteProductServices<FavoriteProducts> _favoriteProductServices;
-
+        private readonly IShoppingCartService<ShoppingCart> _shoppingCartServices;
 
         private readonly ECommerceDbContext _context;
 
-
-        public CategoryController(IProductServices<Product> productService, ICategoryServices<Category> categoryService, ISizeServices<Size> sizeService, ECommerceDbContext context, IFavoriteProductServices<FavoriteProducts> favoriteProductServices)
+        public CategoryController(IProductServices<Product> productService, ICategoryServices<Category> categoryService, ISizeServices<Size> sizeService, ECommerceDbContext context, IFavoriteProductServices<FavoriteProducts> favoriteProductServices, IShoppingCartService<ShoppingCart> shoppingCartServices)
         {
             _productService = productService;
             _categoryService = categoryService;
             _sizeService = sizeService;
             _context = context;
             _favoriteProductServices = favoriteProductServices;
+            _shoppingCartServices = shoppingCartServices;
         }
 
         public IActionResult ProductsByCategory(int categoryId, int? sizeId)
@@ -141,23 +141,141 @@ namespace ECommerce.UI.Controllers
 
         public async Task<IActionResult> GetAllFavorites()
         {
-            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Doğru UserId'yi al
-            //var favorites = await _favoriteProductServices.GetAllFavoritesByUserId(userId);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Kullanıcının ID'sini al
 
-            //return View(favorites);
+            if (string.IsNullOrEmpty(userId))
+            {
+                // Kullanıcı giriş yapmamışsa kayıt sayfasına yönlendir
+                return RedirectToAction("Register", "Account");
+            }
 
-            var favoriteProducts = _context.FavoriteProducts
+            // Kullanıcı ID'sine göre favori ürünleri al
+            var favoriteProducts = await _context.FavoriteProducts
+                .Where(f => f.UserId == userId) // Kullanıcıya ait favori ürünleri filtrele
                 .Include(f => f.Product)
                 .ThenInclude(p => p.Category) // Kategori dahil ediliyor
-                .ToList();
+                .ToListAsync(); // Asenkron olarak listeyi al
 
             if (favoriteProducts == null || !favoriteProducts.Any())
             {
-                ViewBag.Message = "No favorite products found.";
+                ViewBag.Message = "No favorite products found."; // Favori ürün bulunamadı mesajı
                 return View(new List<FavoriteProducts>()); // Boş bir liste döndürülüyor
             }
 
-            return View(favoriteProducts);
+            return View(favoriteProducts); // Favori ürünleri döndür
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddToCart(int productId, int quantity = 1)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Json(new { success = false, message = "User is not logged in." });
+            }
+
+            var cart = await _shoppingCartServices.GetShoppingCartByUserIdAsync(userId);
+
+            if (cart == null)
+            {
+                cart = new ShoppingCart { UserId = userId };
+                _shoppingCartServices.CreateShoppingCart(cart);
+            }
+
+            var shoppingCartItem = cart.ShoppingCartItems.FirstOrDefault(item => item.ProductId == productId);
+
+            if (shoppingCartItem != null)
+            {
+                shoppingCartItem.Quantity += quantity;
+            }
+            else
+            {
+                shoppingCartItem = new ShoppingCartItem
+                {
+                    ProductId = productId,
+                    Quantity = quantity,
+                    //SizeId = /* ilgili sizeId alınacaksa buraya ekleyin */
+                    ShoppingCartId = cart.Id
+                };
+                cart.ShoppingCartItems.Add(shoppingCartItem);
+            }
+
+            _shoppingCartServices.UpdateShoppingCart(cart);
+
+            return RedirectToAction("Cart");
+        }
+
+        public async Task<IActionResult> Cart()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Register", "Account");
+            }
+
+            var cart = await _shoppingCartServices.GetShoppingCartByUserIdAsync(userId);
+
+            if (cart == null)
+            {
+                return View(new List<ShoppingCartItem>());
+            }
+
+            return View(cart.ShoppingCartItems);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveFromCart(int shoppingCartItemId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Json(new { success = false, message = "User is not logged in." });
+            }
+
+            var cart = await _shoppingCartServices.GetShoppingCartByUserIdAsync(userId);
+
+            if (cart == null)
+            {
+                return Json(new { success = false, message = "Cart not found." });
+            }
+
+            var itemToRemove = cart.ShoppingCartItems.FirstOrDefault(item => item.Id == shoppingCartItemId);
+
+            if (itemToRemove != null)
+            {
+                cart.ShoppingCartItems.Remove(itemToRemove);
+                _shoppingCartServices.UpdateShoppingCart(cart);
+            }
+
+            return RedirectToAction("Cart");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Checkout()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var cart = await _shoppingCartServices.GetShoppingCartByUserIdAsync(userId);
+
+            if (cart != null)
+            {
+                // Sepeti temizle
+                cart.ShoppingCartItems.Clear();
+                _shoppingCartServices.UpdateShoppingCart(cart);
+            }
+
+            // Ödeme işlemi başarılı mesajı
+            ViewBag.PaymentSuccess = true;
+
+            return View("Checkout");
         }
     }
 }

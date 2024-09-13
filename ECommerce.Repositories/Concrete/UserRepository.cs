@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Repositories.Concrete
 {
-    public class UserRepository : IUserReposiory<ApplicationUser>
+    public class UserRepository : IUserRepository<ApplicationUser>
     {
         private readonly ECommerceDbContext _context;
 
