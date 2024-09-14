@@ -9,7 +9,7 @@ namespace ECommerce.Repositories.Abstract
 {
     public interface ISizeRepository<T> where T : class
     {
-        IEnumerable<Size> GetAllSizes();
-        Size GetSizeById(int id);
+        IEnumerable<Sizes> GetAllSizes();
+        Sizes GetSizeById(int id);
     }
 }

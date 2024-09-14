@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Repositories.Concrete
 {
-    public class SizeRepository : ISizeRepository<Size>
+    public class SizeRepository : ISizeRepository<Sizes>
     {
         private readonly ECommerceDbContext context;
 
@@ -19,12 +19,12 @@ namespace ECommerce.Repositories.Concrete
             context = _context;
         }
 
-        public IEnumerable<Size> GetAllSizes()
+        public IEnumerable<Sizes> GetAllSizes()
         {
             return context.Sizes.ToList();
         }
 
-        public Size GetSizeById(int id)
+        public Sizes GetSizeById(int id)
         {
             return context.Sizes.Find(id); // Fetch a specific size by ID
         }

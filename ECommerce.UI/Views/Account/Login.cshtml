@@ -49,8 +49,6 @@
                 var form = $(this);
                 var formData = form.serialize();
 
-                debugger;
-
                 $.ajax({
                     type: "POST",
                     url: form.attr("action"),
@@ -60,17 +58,26 @@
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Login successful',
-                                text: login.message,
+                                text: 'You will be redirected shortly.',
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then(function () {
-                                window.location.href = '/';
+                                if (login.role === 0) {
+                                    // Admin role: redirect to Admin/Home
+                                    window.location.href = '/Admin/Home';
+                                } else if (login.role === 1) {
+                                    // User role: redirect to Home/Index
+                                    window.location.href = '/Home/Index';
+                                } else {
+                                    // Default redirect or error handling
+                                    window.location.href = '/';
+                                }
                             });
                         } else {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Login failed',
-                                text: login.errors.join('\n')
+                                text: login.errors ? login.errors.join('\n') : login.message
                             });
                         }
                     },
@@ -85,4 +92,6 @@
             });
         });
     </script>
+
+
 }

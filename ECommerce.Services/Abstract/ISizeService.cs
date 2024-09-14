@@ -9,7 +9,7 @@ namespace ECommerce.Services.Abstract
 {
     public interface ISizeServices<T> where T : class
     {
-        IEnumerable<Size> GetAllSizes();
-        Size GetSizeById(int id);
+        IEnumerable<Sizes> GetAllSizes();
+        Sizes GetSizeById(int id);
     }
 }

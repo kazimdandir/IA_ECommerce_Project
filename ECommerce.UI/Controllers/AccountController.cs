@@ -27,21 +27,71 @@ namespace ECommerce.UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, PasswordHash = model.Password };
+                // Kullanıcıyı email ile bul
+                var user = await _userManager.FindByEmailAsync(model.Email);
 
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: false);
-
-
-                if (result.Succeeded)
+                if (user != null)
                 {
-                    return new JsonResult(new { success = true, message = "Login successful" });
-                } 
+                    // Kullanıcı doğrulama işlemi
+                    var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, isPersistent: false, lockoutOnFailure: false);
+
+                    if (result.Succeeded)
+                    {
+                        // Kullanıcı rolüne göre yönlendirme
+                        if (user.Role == UserRole.Admin)
+                        {
+                            model.Password = user.PasswordHash;
+                            return Json(new { success = true, role = 0 });
+                        }
+                        else
+                        {
+                            return Json(new { success = true, role = 1 });
+                        }
+                    }
+                }
+
+                // Login hatası durumunda sweet alert için
+                return Json(new { success = false, message = "Login failed. Please check your credentials." });
             }
 
             // Model state errors to JSON
             var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
             return Json(new { success = false, errors });
         }
+
+        //[HttpPost]
+        //public async Task<JsonResult> Login(LoginViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        Kullanıcıyı email ile bul
+        //        var user = await _userManager.FindByEmailAsync(model.Email);
+
+        //        if (user != null)
+        //        {
+        //            if (user.Role == UserRole.Admin)
+        //            {
+        //                model.Password = user.PasswordHash;
+        //                Admin sayfasına yönlendir
+        //                return Json(new { success = true, redirectUrl = "/Admin/Home" });
+        //            }
+        //            else
+        //            {
+        //                Kullanıcı sayfasına yönlendir
+        //                return Json(new { success = true, redirectUrl = "/Home/Index" });
+        //            }
+
+        //        }
+
+        //        Login hatası durumunda sweet alert için
+        //        return Json(new { success = false, message = "Login failed. Please check your credentials." });
+        //    }
+
+        //    Model state errors to JSON
+        //   var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+        //    return Json(new { success = false, errors });
+        //}
+
 
         [HttpGet]
         public IActionResult Register()
@@ -51,7 +101,7 @@ namespace ECommerce.UI.Controllers
 
         [HttpPost]
         public async Task<JsonResult> Register(RegisterViewModel model)
-        {            
+        {
 
             if (ModelState.IsValid)
             {

@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Services.Concrete
 {
-    public class SizeManager : ISizeServices<Size>
+    public class SizeManager : ISizeServices<Sizes>
     {
-        public readonly ISizeRepository<Size> sizeRepository;
+        public readonly ISizeRepository<Sizes> sizeRepository;
 
-        public SizeManager(ISizeRepository<Size> _sizeRepository)
+        public SizeManager(ISizeRepository<Sizes> _sizeRepository)
         {
             sizeRepository = _sizeRepository;
         }
 
-        public IEnumerable<Size> GetAllSizes()
+        public IEnumerable<Sizes> GetAllSizes()
         {
             if (sizeRepository.GetAllSizes() is not null)
             {
@@ -32,7 +32,7 @@ namespace ECommerce.Services.Concrete
             }
         }
 
-        public Size GetSizeById(int id)
+        public Sizes GetSizeById(int id)
         {
             if (id > 0)
             {

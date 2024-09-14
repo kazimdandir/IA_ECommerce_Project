@@ -1,13 +1,14 @@
 ﻿@model ECommerce.Entities.Product
 
 @{
-    ViewData["Title"] = "CreateProduct";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Create Product";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>@ViewData["Title"]</h2>
 
-<form asp-action="CreateProduct" method="post">
+<form asp-action="CreateProduct" method="post" enctype="multipart/form-data">
+    <!-- Dosya yükleme için enctype ekleniyor -->
     <div class="form-group">
         <label asp-for="Name" class="control-label"></label>
         <input asp-for="Name" class="form-control" />
@@ -27,15 +28,15 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="ImagePath" class="control-label"></label>
-        <input asp-for="ImagePath" class="form-control" />
-        <span asp-validation-for="ImagePath" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
         <label asp-for="DetailsCare" class="control-label"></label>
         <textarea asp-for="DetailsCare" class="form-control"></textarea>
         <span asp-validation-for="DetailsCare" class="text-danger"></span>
+    </div>
+
+    <!-- Yeni dosya yükleme alanı -->
+    <div class="form-group">
+        <label for="imageFile">Product Image</label>
+        <input type="file" name="imageFile" class="form-control" />
     </div>
 
     <div class="form-group">

@@ -14,7 +14,7 @@
             <label for="sizeFilter">Size:</label>
             <select id="sizeFilter" name="sizeId" class="form-control custom-select" onchange="submitForm()">
                 <option value="">Select Size</option>
-                @foreach (var size in ViewBag.Sizes as List<ECommerce.Entities.Size>)
+                @foreach (var size in ViewBag.Sizes as List<ECommerce.Entities.Sizes>)
                 {
                     <option value="@size.Id">@size.SizeName</option>
                 }

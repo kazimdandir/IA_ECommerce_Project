@@ -37,7 +37,7 @@ namespace ECommerce.Repositories.Context
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public DbSet<Size> Sizes { get; set; }
+        public DbSet<Sizes> Sizes { get; set; }
         public DbSet<FavoriteProducts> FavoriteProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -83,24 +83,24 @@ namespace ECommerce.Repositories.Context
                 }
             );
 
-            modelBuilder.Entity<Size>().HasData(
-                new Size { Id = 1, SizeName = "28" },
-                new Size { Id = 2, SizeName = "32" },
-                new Size { Id = 3, SizeName = "34" },
-                new Size { Id = 4, SizeName = "36" },
-                new Size { Id = 5, SizeName = "38" },
-                new Size { Id = 6, SizeName = "40" },
-                new Size { Id = 7, SizeName = "42" },
-                new Size { Id = 8, SizeName = "44" },
-                new Size { Id = 9, SizeName = "46" },
-                new Size { Id = 10, SizeName = "XS" },
-                new Size { Id = 11, SizeName = "S" },
-                new Size { Id = 12, SizeName = "M" },
-                new Size { Id = 13, SizeName = "L" },
-                new Size { Id = 14, SizeName = "XL" },
-                new Size { Id = 15, SizeName = "XXL" },
-                new Size { Id = 16, SizeName = "XXXL" },
-                new Size { Id = 17, SizeName = "One Size" }
+            modelBuilder.Entity<Sizes>().HasData(
+                new Sizes { Id = 1, SizeName = "28" },
+                new Sizes { Id = 2, SizeName = "32" },
+                new Sizes { Id = 3, SizeName = "34" },
+                new Sizes { Id = 4, SizeName = "36" },
+                new Sizes { Id = 5, SizeName = "38" },
+                new Sizes { Id = 6, SizeName = "40" },
+                new Sizes { Id = 7, SizeName = "42" },
+                new Sizes { Id = 8, SizeName = "44" },
+                new Sizes { Id = 9, SizeName = "46" },
+                new Sizes { Id = 10, SizeName = "XS" },
+                new Sizes { Id = 11, SizeName = "S" },
+                new Sizes { Id = 12, SizeName = "M" },
+                new Sizes { Id = 13, SizeName = "L" },
+                new Sizes { Id = 14, SizeName = "XL" },
+                new Sizes { Id = 15, SizeName = "XXL" },
+                new Sizes { Id = 16, SizeName = "XXXL" },
+                new Sizes { Id = 17, SizeName = "One Size" }
             );
 
             modelBuilder.Entity<Category>().HasData(

@@ -1,0 +1,56 @@
+﻿@model ECommerce.UI.Models.Account.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Admin Login</h2>
+
+<!-- Login form -->
+<form asp-action="Index" method="post" id="loginForm">
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input asp-for="Email" class="form-control" type="email" id="email" name="email" required />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input asp-for="Password" class="form-control" type="password" id="password" name="password" required />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+
+<div id="errorMessages" class="text-danger"></div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#loginForm').on('submit', function (event) {
+                event.preventDefault();
+
+                $.ajax({
+                    url: '@Url.Action("Index", "Admin")',
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            window.location.href = '@Url.Action("Index", "Home")';
+                        } else {
+                            let errorMessages = result.errors.join("<br/>");
+                            $('#errorMessages').html(errorMessages);
+                        }
+                    },
+                    error: function () {
+                        $('#errorMessages').text("An error occurred while processing your request.");
+                    }
+                });
+            });
+        });
+    </script>
+}
+

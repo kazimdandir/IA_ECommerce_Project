@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "DeleteProduct";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -34,12 +34,13 @@
         </dl>
     </div>
 
-    <form asp-action="DeleteProductConfirmed" method="post">
+    <a asp-controller="Category" asp-action="DeleteProductConfirmed" class="btn btn-danger">Delete</a>
+
+    @* <form asp-action="DeleteProductConfirmed" method="post">
         <input type="hidden" asp-for="Id" />
         <div class="form-group">
             <input type="submit" value="Delete" class="btn btn-danger" />
             <a href="@Url.Action("Products")" class="btn btn-secondary">Cancel</a>
         </div>
-    </form>
+    </form> *@
 </div>
-

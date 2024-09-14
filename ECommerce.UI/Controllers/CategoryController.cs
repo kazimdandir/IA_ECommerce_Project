@@ -13,13 +13,13 @@ namespace ECommerce.UI.Controllers
     {
         private readonly IProductServices<Product> _productService;
         private readonly ICategoryServices<Category> _categoryService;
-        private readonly ISizeServices<Size> _sizeService; // Add this line
+        private readonly ISizeServices<Sizes> _sizeService; // Add this line
         private readonly IFavoriteProductServices<FavoriteProducts> _favoriteProductServices;
         private readonly IShoppingCartService<ShoppingCart> _shoppingCartServices;
 
         private readonly ECommerceDbContext _context;
 
-        public CategoryController(IProductServices<Product> productService, ICategoryServices<Category> categoryService, ISizeServices<Size> sizeService, ECommerceDbContext context, IFavoriteProductServices<FavoriteProducts> favoriteProductServices, IShoppingCartService<ShoppingCart> shoppingCartServices)
+        public CategoryController(IProductServices<Product> productService, ICategoryServices<Category> categoryService, ISizeServices<Sizes> sizeService, ECommerceDbContext context, IFavoriteProductServices<FavoriteProducts> favoriteProductServices, IShoppingCartService<ShoppingCart> shoppingCartServices)
         {
             _productService = productService;
             _categoryService = categoryService;

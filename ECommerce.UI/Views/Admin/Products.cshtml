@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Products";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -15,8 +15,10 @@
     <thead>
         <tr>
             <th>ID</th>
+            <th>Image</th>
             <th>Name</th>
             <th>Price</th>
+            <th>Size</th>
             <th>Category</th>
             <th>Actions</th>
         </tr>
@@ -26,12 +28,14 @@
         {
             <tr>
                 <td>@product.Id</td>
+                <td><img src="@product.ImagePath" alt="Alternate Text" style="width: 100px; height:100px;" /></td>
                 <td>@product.Name</td>
                 <td>@product.Price.ToString("C")</td>
+                <td>@string.Join(", ", product.ShoppingCartItems?.Select(i => i.Size?.SizeName) ?? new List<string>())</td>
                 <td>@product.Category.Name</td>
                 <td>
                     <a href="@Url.Action("EditProduct", new { id = product.Id })" class="btn btn-warning">Edit</a>
-                    <a href="@Url.Action("DeleteProduct", new { id = product.Id })" class="btn btn-danger">Delete</a>
+                    <a href="@Url.Action("DeleteProduct", new { id = product.Id })" class="btn btn-danger" >Delete</a>
                 </td>
             </tr>
         }

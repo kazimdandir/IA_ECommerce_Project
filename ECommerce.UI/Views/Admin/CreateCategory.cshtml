@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "CreateCategory";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -10,7 +10,7 @@
 <form asp-action="CreateCategory" method="post">
     <div class="form-group">
         <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" />
+        <input asp-for="Name" class="form-control" placeholder="Enter a new category name" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
